@@ -1,8 +1,5 @@
 ## task
 
-load templates
-
-1. configure
 2. theme
 
 ## todo

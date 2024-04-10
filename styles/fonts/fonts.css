@@ -13,14 +13,14 @@
 	src: url('./nissan/bold.otf');
 }
 
-[data-font="d"] {
+[a-font="d"] {
 	font-family: 'light';
 	font-size: var(--font-size--d);
 	font-weight: var(--font-weight--d);
 	line-height: var(--line-height--d);
 }
 
-[data-font="mark"] {
+[a-font="mark"] {
 	font-family: 'regular';
 	font-size: var(--font-size--d);
 	font-weight: var(--font-weight--xl);
@@ -29,7 +29,7 @@
 	text-transform: uppercase;
 }
 
-[data-font="h"] {
+[a-font="h"] {
 	font-family: 'bold';
 	font-size: var(--font-size--xl);
 	font-weight: var(--font-weight--l);
@@ -38,7 +38,7 @@
 	text-transform: uppercase;
 }
 
-[data-font="sm"] {
+[a-font="sm"] {
 	font-family: 'light';
 	font-size: var(--font-size--sm);
 	font-weight: var(--font-weight--sm);

@@ -1,5 +1,4 @@
-import { Nodes_By_Attribute } from './node.mjs'
-import { Nodes_Data } from './node_data.mjs'
+import { Nodes_By_Attribute, Nodes_Data } from './node.mjs'
 import { maps } from './utils.mjs'
 
 class Template_Config {

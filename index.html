@@ -25,56 +25,53 @@
 	</head>
 
 	<body>
-		<div
-			id="game"
-			class="game"
-			data-grid="4"
-			data-theme="jupiter"
-			data-configure="horizontal"
-			data-font="d"
-			data-color="d"
-		>
+		<div id="game">
 			<div
-				id="field"
-				class="field"
-				data-template="field"
-				data-grid-col="3"
-			></div>
-
-			<div
-				id="settings"
-				class="settings"
-				data-grid
+				id="wrapper"
+				class="wrapper"
+				a-theme="jupiter"
+				a-grid="4"
+				a-font="d"
+				a-color="d"
+				a-fluid
+				a-vars
 			>
 				<div
-					id="themes"
-					class="themes"
-					data-template="themes"
+					id="field"
+					class="field"
+					a-template="field"
+					a-grid-col="3"
 				></div>
 
 				<div
-					id="configure"
-					class="configure"
-					data-template="configure"
-				></div>
+					id="settings"
+					class="settings"
+					a-grid
+				>
+					<div
+						id="themes"
+						class="themes"
+						a-template="themes"
+					></div>
 
-				<div
-					id="sizes"
-					class="sizes"
-					data-template="sizes"
-				></div>
+					<div
+						id="configure"
+						class="configure"
+						a-template="configure"
+					></div>
 
-				<div
-					id="rules"
-					class="rules"
-					data-template="rules"
-				></div>
+					<div
+						id="rules"
+						class="rules"
+						a-template="rules"
+					></div>
 
-				<div
-					id="controls"
-					class="controls"
-					data-template="controls"
-				></div>
+					<div
+						id="controls"
+						class="controls"
+						a-template="controls"
+					></div>
+				</div>
 			</div>
 		</div>
 	</body>
