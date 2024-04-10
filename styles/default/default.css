@@ -1,0 +1,5 @@
+@import './grid.css';
+
+.game {
+	min-height: 100dvh;
+}

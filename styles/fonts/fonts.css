@@ -1,0 +1,46 @@
+@font-face {
+	font-family: 'regular';
+	src: url('./nissan/regular.otf');
+}
+
+@font-face {
+	font-family: 'light';
+	src: url('./nissan/light.otf');
+}
+
+@font-face {
+	font-family: 'bold';
+	src: url('./nissan/bold.otf');
+}
+
+[data-font="d"] {
+	font-family: 'light';
+	font-size: var(--font-size--d);
+	font-weight: var(--font-weight--d);
+	line-height: var(--line-height--d);
+}
+
+[data-font="mark"] {
+	font-family: 'regular';
+	font-size: var(--font-size--d);
+	font-weight: var(--font-weight--xl);
+	line-height: var(--line-height--d);
+
+	text-transform: uppercase;
+}
+
+[data-font="h"] {
+	font-family: 'bold';
+	font-size: var(--font-size--xl);
+	font-weight: var(--font-weight--l);
+	line-height: var(--line-height--xl);
+
+	text-transform: uppercase;
+}
+
+[data-font="sm"] {
+	font-family: 'light';
+	font-size: var(--font-size--sm);
+	font-weight: var(--font-weight--sm);
+	line-height: var(--line-height--sm);
+}

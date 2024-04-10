@@ -1,0 +1,18 @@
+<svg id="logosandtypes_com" data-name="logosandtypes com" xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 150 150">
+	<defs>
+		<style>.cls-1{fill:none;}.cls-2{fill-rule:evenodd;fill:url(#linear-gradient);}</style>
+		<linearGradient id="linear-gradient" x1="19.78" y1="128.3" x2="130.5" y2="17.57"
+			gradientTransform="matrix(1, 0, 0, -1, 0, 151.6)" gradientUnits="userSpaceOnUse">
+			<stop offset="0" stop-color="#2733e8" />
+			<stop offset="1" stop-color="#ed4d7b" />
+		</linearGradient>
+	</defs>
+	<g id="Layer_3" data-name="Layer 3">
+		<g id="Layer_2" data-name="Layer 2">
+			<path id="Layer_3-2" data-name="Layer 3" class="cls-1" d="M0,0H150V150H0Z" />
+		</g>
+	</g>
+	<path class="cls-2"
+		d="M110.3,93.58H55.2a6.38,6.38,0,0,1-6.38-6.37v-57a6.38,6.38,0,1,1,12.76,0V89.89H76.37V30.23a21.18,21.18,0,0,0-42.35,0v57A21.2,21.2,0,0,0,55.2,108.38h55.1a6.38,6.38,0,1,1,0,12.76H82.75a6.38,6.38,0,0,1-6.38-6.38v-2.68H61.58v2.68a21.19,21.19,0,0,0,21.17,21.17H110.3a21.18,21.18,0,1,0,0-42.35Z" />
+</svg>

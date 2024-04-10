@@ -1,0 +1,4 @@
+[data-color="d"] {
+	color: var(--f-color);
+	background-color: var(--b-color);
+}

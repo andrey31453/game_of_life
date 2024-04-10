@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Game of Life</title>
+
+		<link
+			rel="icon"
+			href="./images/favicon.svg"
+			type="image/svg+xml"
+		/>
+		<link
+			rel="stylesheet"
+			href="./styles/index.css"
+		/>
+		<script
+			defer
+			type="module"
+			src="./scripts/index.mjs"
+		></script>
+	</head>
+
+	<body>
+		<div
+			id="game"
+			class="game"
+			data-grid="4"
+			data-theme="jupiter"
+			data-configure="horizontal"
+			data-font="d"
+			data-color="d"
+		>
+			<div
+				id="field"
+				class="field"
+				data-template="field"
+				data-grid-col="3"
+			></div>
+
+			<div
+				id="settings"
+				class="settings"
+				data-grid
+			>
+				<div
+					id="themes"
+					class="themes"
+					data-template="themes"
+				></div>
+
+				<div
+					id="configure"
+					class="configure"
+					data-template="configure"
+				></div>
+
+				<div
+					id="sizes"
+					class="sizes"
+					data-template="sizes"
+				></div>
+
+				<div
+					id="rules"
+					class="rules"
+					data-template="rules"
+				></div>
+
+				<div
+					id="controls"
+					class="controls"
+					data-template="controls"
+				></div>
+			</div>
+		</div>
+	</body>
+</html>
