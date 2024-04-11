@@ -1,43 +1,21 @@
-import { Node_By_Attribute, Singleton, Canvas, State } from '../bunddler.mjs'
+export class Life_Model {
+  constructor() {
+    this.#init()
+  }
 
-export const Life_Model = new Singleton(
-	class {
-		#canvas
-		#state = new State()
-		#default_config = {
-			elems: [
-				{
-					type: 'border',
-					size: this.#state.config.border_width,
-				},
-			],
-		}
+  #init = () => {
+    this.value = Math.random()
+  }
 
-		constructor() {
-			this.#canvas = new Canvas(
-				new Node_By_Attribute('field').value,
-				this.#update
-			)
+  start = () => {
+    console.log('start')
+  }
 
-			this.#init()
-		}
+  pause = () => {
+    console.log('pause')
+  }
 
-		#init = () => {}
-
-		#update = () => {
-			console.log('#update')
-		}
-
-		start = () => {
-			console.log('start')
-		}
-
-		pause = () => {
-			console.log('pause')
-		}
-
-		stop = () => {
-			console.log('stop')
-		}
-	}
-)
+  stop = () => {
+    console.log('stop')
+  }
+}
