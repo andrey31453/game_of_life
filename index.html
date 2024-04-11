@@ -26,51 +26,31 @@
 
 	<body>
 		<div id="game">
-			<div
-				id="wrapper"
-				class="wrapper"
-				a-theme="jupiter"
-				a-grid="4"
-				a-font="d"
-				a-color="d"
-				a-fluid
-				a-vars
-			>
+			<div a-vars>
 				<div
-					id="field"
-					class="field"
-					a-template="field"
-					a-grid-col="3"
-				></div>
-
-				<div
-					id="settings"
-					class="settings"
-					a-grid
+					a-font="d"
+					a-color="d"
 				>
-					<div
-						id="themes"
-						class="themes"
-						a-template="themes"
-					></div>
+					<!-- main -->
+					<main
+						a-theme="jupiter"
+						a-grid="4"
+						a-fluid
+						a-container
+					>
+						<div
+							a-template="field"
+							a-grid-col="3"
+						></div>
 
-					<div
-						id="configure"
-						class="configure"
-						a-template="configure"
-					></div>
-
-					<div
-						id="rules"
-						class="rules"
-						a-template="rules"
-					></div>
-
-					<div
-						id="controls"
-						class="controls"
-						a-template="controls"
-					></div>
+						<div a-grid>
+							<div a-template="themes"></div>
+							<div a-template="configure"></div>
+							<div a-template="rules"></div>
+							<div a-template="controls"></div>
+						</div>
+					</main>
+					<!-- /main -->
 				</div>
 			</div>
 		</div>

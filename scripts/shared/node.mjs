@@ -1,3 +1,4 @@
+// TODO add hash in options
 export class Node_By_Attribute {
 	constructor(tag) {
 		this.value =

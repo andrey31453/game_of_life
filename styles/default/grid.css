@@ -3,7 +3,7 @@
 [a-grid] {
 	display: grid;
 	grid-template-rows: max-content;
-	gap: var(--gap)
+	gap: var(--gap--d)
 }
 
 [a-grid="2"] {

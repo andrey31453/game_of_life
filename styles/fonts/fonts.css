@@ -40,7 +40,7 @@
 
 [a-font="sm"] {
 	font-family: 'light';
-	font-size: var(--font-size--sm);
-	font-weight: var(--font-weight--sm);
-	line-height: var(--line-height--sm);
+	font-size: var(--font-size--s);
+	font-weight: var(--font-weight--s);
+	line-height: var(--line-height--s);
 }
