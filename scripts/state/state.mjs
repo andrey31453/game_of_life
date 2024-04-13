@@ -1,15 +1,27 @@
-import { Singleton } from '../bunddler.mjs'
+import { Singleton, Lives } from '../bunddler.mjs'
 
 export const State = new Singleton(
-	class {
-		test = 0
+  class {
+    config = {
+      x: 30,
+      y: 30,
+      time: 300,
+      // lives: new Lives([
+      //   '1:0',
+      //   '1:1',
+      //   '1:2',
+      //   '1:3',
+      //   '2:0',
+      //   '2:1',
+      //   '2:2',
+      //   '3:0',
+      //   '3:1',
+      //   '3:2',
+      // ]).value,
+      // lives: new Lives(['1:0', '2:1', '3:0']).value,
+      lives: new Lives(['1:1', '2:1', '3:1']).value,
+    }
 
-		config = {
-			x: 20,
-			y: 20,
-			time: 400,
-		}
-
-		constructor() {}
-	}
+    vars = null
+  }
 )

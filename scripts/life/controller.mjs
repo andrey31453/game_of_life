@@ -20,23 +20,28 @@ export const Life_Controller = new Singleton(
         this.#state.vars
       )
 
-      this.#view.init()
+      this.#view.update()
     }
 
-    #update = () => this.#model.value
+    #update = () => this.#model.state
+
+    // public
+
     start = () => {
       this.#model.start()
       this.#view.start()
     }
+
     pause = () => {
       this.#model.pause()
       this.#view.pause()
     }
-    stop = () => {
-      this.#model.stop()
-      this.#view.stop()
+
+    clear = () => {
+      this.#model.clear()
+      this.#view.update()
     }
 
-    not_valid_key = (key) => !['start', 'pause', 'stop'].includes(key)
+    not_valid_key = (key) => !['start', 'pause', 'clear'].includes(key)
   }
 )
