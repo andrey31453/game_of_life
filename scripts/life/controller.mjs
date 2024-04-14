@@ -18,7 +18,10 @@ export const Life_Controller = new Singleton(
         new Node_By_Attribute('game-field').value,
         new Node_By_Attribute('game-info').value,
         this.#update,
-        this.#state.vars
+        {
+          ...this.#state.vars,
+          ...this.#state.config,
+        }
       )
 
       this.#view.update()

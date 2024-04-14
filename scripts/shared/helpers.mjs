@@ -13,3 +13,7 @@ export const maps = (...props) => {
 
   datas[0].forEach((_, i) => cb(...datas.map((data) => data[i])))
 }
+
+export const decimal = (v) => `${v}`.replace(/\D/gi, '')
+
+export const iterate = (num, cb) => [...Array(num).keys()].map((i) => cb(i))

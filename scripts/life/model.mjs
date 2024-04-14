@@ -51,7 +51,7 @@ export class Life_Model {
       status: this.#status,
 
       lives: this.#lives,
-      lives: this.#size,
+      size: this.#size,
 
       history: this.#history,
 

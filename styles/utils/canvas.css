@@ -1,5 +1,7 @@
 [a-canvas-wrapper] {
 	position: relative;
+	border-radius: var(--gap--s);
+	overflow: auto;
 }
 
 [a-canvas] {

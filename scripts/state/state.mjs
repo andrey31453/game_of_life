@@ -3,8 +3,8 @@ import { Singleton, Lives } from '../bunddler.mjs'
 export const State = new Singleton(
   class {
     config = {
-      x: 30,
-      y: 30,
+      x: 20,
+      y: 20,
       time: 300,
       // lives: new Lives([
       //   '1:0',

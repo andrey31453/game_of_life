@@ -1,0 +1,6 @@
+[a-vars] {
+	* {
+		scrollbar-color: var(--color--primary) var(--background-color--secondary);
+		scrollbar-width: --scroll_width;
+	}
+}

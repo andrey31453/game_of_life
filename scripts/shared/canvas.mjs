@@ -1,4 +1,11 @@
-import { delay, wait_condition } from '../bunddler.mjs'
+import { delay, wait_condition, decimal } from '../bunddler.mjs'
+
+class Canvas_Coords {
+  constructor(position, config) {
+    this.width = position[0] * config.width
+    this.height = position[1] * config.height
+  }
+}
 
 // TODO fix blured font
 
@@ -11,19 +18,40 @@ class Canvas_Text {
 
   drow = (node, ctx, config) => {
     ctx.fillStyle = this.#options.style.color
-    ctx.font = '16px regular'
+    // TODO change regular to vars.param
+    ctx.font = `${this.#options.style.weight} ${
+      this.#options.style.size
+    } regular`
+    const { width, height } = new Canvas_Coords(this.#options.position, config)
 
-    ctx.fillText(
-      this.#options.text,
-      this.#options.position[0] * config.width,
-      this.#options.position[1] * config.height
-    )
+    ctx.fillText(this.#options.text, width, height)
+  }
+}
+
+class Canvas_Round {
+  #options
+  #two_pi = 2 * Math.PI
+
+  constructor(options) {
+    this.#options = options
+  }
+
+  drow = (node, ctx, config) => {
+    ctx.lineWidth = this.#options.style.width
+    ctx.strokeStyle = this.#options.style.color
+    const { width, height } = new Canvas_Coords(this.#options.position, config)
+
+    ctx.beginPath()
+    ctx.arc(width, height, this.#options.style.radius, 0, this.#two_pi)
+    ctx.closePath()
+    ctx.stroke()
   }
 }
 
 export class Canvas_Elem {
   #elems = {
     text: Canvas_Text,
+    round: Canvas_Round,
   }
 
   constructor(type, options) {
@@ -46,20 +74,16 @@ class Canvas_Config {
 
     return {
       width:
-        this.#sanitize(this.#config.width) ||
-        Math.floor(
-          this.#node.offsetWidth - 2 * this.#sanitize(this.#config.padding)
-        ),
+        decimal(this.#config.width) ||
+        Math.floor(this.#node.offsetWidth - 2 * decimal(this.#config.padding)),
       // TODO wtf??? delete magic 7!
       height:
-        this.#sanitize(this.#config.height) ||
-        this.#node.offsetHeight - 2 * this.#sanitize(this.#config.padding) - 7,
+        decimal(this.#config.height) ||
+        this.#node.offsetHeight - 2 * decimal(this.#config.padding) - 7,
       padding: this.#config.padding,
       background: this.#config.background || '#000000',
     }
   }
-
-  #sanitize = (v) => `${v}`.replace(/\D/gi, '')
 }
 
 export class Canvas {
@@ -88,7 +112,10 @@ export class Canvas {
   }
 
   update_config = (config) => {
-    this.#config = config
+    this.#config = {
+      ...this.#config,
+      ...config,
+    }
     this.#hard_drow()
   }
 
@@ -123,12 +150,13 @@ export class Canvas {
   #drow = async () => {
     await wait_condition(this.#is_ready, 100)
     this.#clear()
+
     this.#state.forEach((canvas_elem) =>
       canvas_elem.drow(this.#node, this.#ctx, this.#canvas_config)
     )
   }
 
-  #is_ready = () => this.#canvas_config
+  #is_ready = () => Object.keys(this.#canvas_config || {}).length
 
   #clear = () => {
     this.#ctx.clearRect(

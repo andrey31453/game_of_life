@@ -1,4 +1,11 @@
-import { Canvas, live_config, Canvas_Elem, vars } from '../bunddler.mjs'
+import {
+  Canvas,
+  live_config,
+  Canvas_Elem,
+  vars,
+  decimal,
+  iterate,
+} from '../bunddler.mjs'
 
 //
 //
@@ -11,8 +18,8 @@ class Life_Info_View {
 
   constructor(node, config) {
     this.#canvas = new Canvas(node, {
-      background: config[vars.background_color_primary],
-      padding: config[vars.gap_s],
+      background: config[vars.background_color.primary],
+      padding: config[vars.gap.s],
     })
     this.#config = config
   }
@@ -21,17 +28,17 @@ class Life_Info_View {
 
   update = (model) => {
     this.#update_state(model)
-    this.#canvas.update(this.#canvas_data(model))
+    this.#canvas.update(this.#canvas_data())
   }
 
   //
 
   get #style() {
     return {
-      size: this.#config[vars.font_size_d],
-      weight: this.#config[vars.font_weight_d],
-      height: this.#config[vars.line_height_d],
-      color: this.#config[vars.font_color_primary],
+      size: this.#config[vars.font_size.d],
+      weight: this.#config[vars.font_weight.s],
+      height: this.#config[vars.line_height.d],
+      color: this.#config[vars.font_color.primary],
     }
   }
 
@@ -74,7 +81,12 @@ class Life_Field_View {
   #config
 
   constructor(node, config) {
-    this.#canvas = new Canvas(node, {})
+    this.#canvas = new Canvas(node, {
+      background: config[vars.background_color.secondary],
+      padding: config[vars.gap.l],
+      width: decimal(config[vars.icon.live.size]) * config.x,
+      height: decimal(config[vars.icon.live.size]) * config.y,
+    })
     this.#config = config
   }
 
@@ -91,12 +103,36 @@ class Life_Field_View {
 
   #not_need_update = (hash) => this.#state.hash === hash
 
-  #update_state = ({ lives, hash }) => {
+  #update_state = ({ lives, hash, size }) => {
     this.#state.hash = hash
     this.#state.lives = lives
+    this.#state.size = size
   }
 
-  #canvas_data = () => []
+  #canvas_data = () => [...this.#fields()]
+
+  #fields = () =>
+    iterate(this.#state.size.x, (x) =>
+      iterate(this.#state.size.y, (y) =>
+        this.#field(
+          (x + 0.5) / this.#state.size.x,
+          (y + 0.5) / this.#state.size.y
+        )
+      )
+    ).flat()
+
+  #field = (x, y) =>
+    new Canvas_Elem('round', {
+      style: {
+        radius:
+          0.5 *
+          this.#config[vars.icon.live.wrapper_proportion] *
+          decimal(this.#config[vars.icon.live.size]),
+        color: this.#config[vars.color.secondary],
+        width: this.#config[vars.icon.wrapper_width],
+      },
+      position: [x, y],
+    }).value
 }
 
 //

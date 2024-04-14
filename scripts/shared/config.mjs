@@ -28,41 +28,72 @@ export const live_config = {
     won: 'ПОБЕДА!',
     loose: 'ПОРАЖЕНИЕ! ',
   },
+
+  sizes: {
+    live: 40,
+  },
 }
 
 export const vars = {
-  /* colors */
+  // colors
 
-  color_primary: '--color--primary',
-  color_secondary: '--color--secondary',
+  color: {
+    primary: '--color--primary',
+    secondary: '--color--secondary',
+  },
 
-  font_color_primary: '--font-color--primary',
-  font_color_secondary: '--font-color--secondary',
+  font_color: {
+    primary: '--font-color--primary',
+    secondary: '--font-color--secondary',
+  },
 
-  background_color_primary: '--background-color--primary',
-  background_color_secondary: '--background-color--secondary',
+  background_color: {
+    primary: '--background-color--primary',
+    secondary: '--background-color--secondary',
+  },
 
-  /* distances */
+  // icons
 
-  gap_s: '--gap--s',
-  gap_d: '--gap--d',
-  gap_l: '--gap--l',
-  gap_xl: '--gap--xl',
+  icon: {
+    live: {
+      size: '--icon--live--size',
+      wrapper_width: '--icon-size--live--wrapper_width',
+      wrapper_proportion: '--icon-size--live--wrapper_proportion',
+      inner_proportion: '--icon--live--inner_proportion',
+    },
 
-  /* font params */
+    theme_size: '--icon--theme_size',
+  },
 
-  font_size_s: '--font-size--s',
-  font_size_d: '--font-size--d',
-  font_size_l: '--font-size--l',
-  font_size_xl: '--font-size--xl',
+  // distances
 
-  line_height_s: '--line-height--s',
-  line_height_d: '--line-height--d',
-  line_height_l: '--line-height--l',
-  line_height_xl: '--line-height--xl',
+  gap: {
+    s: '--gap--s',
+    d: '--gap--d',
+    l: '--gap--l',
+    xl: '--gap--xl',
+  },
 
-  font_weight_s: '--font-weight--s',
-  font_weight_d: '--font-weight--d',
-  font_weight_l: '--font-weight--l',
-  font_weight_xl: '--font-weight--xl',
+  // font params
+
+  font_size: {
+    s: '--font-size--s',
+    d: '--font-size--d',
+    l: '--font-size--l',
+    xl: '--font-size--xl',
+  },
+
+  line_height: {
+    s: '--line-height--s',
+    d: '--line-height--d',
+    l: '--line-height--l',
+    xl: '--line-height--xl',
+  },
+
+  font_weight: {
+    s: '--font-weight--s',
+    d: '--font-weight--d',
+    l: '--font-weight--l',
+    xl: '--font-weight--xl',
+  },
 }
