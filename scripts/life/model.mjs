@@ -8,7 +8,7 @@ import {
 
 export class Life_Model {
   #on = false
-  #status = live_config.statuses.on
+  #status
   #lives
   #hash
   #history
@@ -37,7 +37,10 @@ export class Life_Model {
 
   pause = () => (this.#on = false)
 
-  clear = () => (this.#lives = new Lives().value)
+  clear = () => {
+    this.#lives = new Lives().value
+    this.#init()
+  }
 
   //
   //
@@ -82,6 +85,7 @@ export class Life_Model {
   //
 
   #init = () => {
+    this.#status = live_config.statuses.on
     this.#history = []
     this.#update_history()
   }

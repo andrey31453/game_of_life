@@ -1,5 +1,7 @@
 import { delay, wait_condition } from '../bunddler.mjs'
 
+// TODO fix blured font
+
 class Canvas_Text {
   #options
 

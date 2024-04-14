@@ -24,9 +24,9 @@ export const live_config = {
   },
 
   statuses: {
-    on: 'live',
-    won: 'Stable live. WON!',
-    loose: 'All dead. LOOSE! ',
+    on: 'Жизнь',
+    won: 'ПОБЕДА!',
+    loose: 'ПОРАЖЕНИЕ! ',
   },
 }
 
