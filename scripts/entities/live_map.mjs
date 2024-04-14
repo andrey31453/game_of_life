@@ -100,7 +100,9 @@ class Is_Live {
 
 class Live_Config {
   constructor(lives, live) {
-    this.value = lives.includes(live) ? live_config.live : live_config.empty
+    this.value = lives.includes(live)
+      ? live_config.rules.live
+      : live_config.rules.empty
   }
 }
 

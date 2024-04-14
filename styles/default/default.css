@@ -1,7 +1,0 @@
-@import './grid.css';
-@import './svg.css';
-@import './container.css';
-
-[a-fluid] {
-	min-height: 100dvh;
-}

@@ -12,15 +12,3 @@ export const Singleton = function (_class) {
     return instance || (instance = new _class(...args))
   }
 }
-
-export class Canvas {
-  #node
-  #ctx
-  #config
-
-  constructor(node, config) {
-    this.#node = node
-    this.#ctx = this.#node.getContext('2D')
-    this.#config = config
-  }
-}

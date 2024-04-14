@@ -1,58 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0"
-		/>
-		<title>Game of Life</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Game of Life</title>
 
-		<link
-			rel="icon"
-			href="./images/favicon.svg"
-			type="image/svg+xml"
-		/>
-		<link
-			rel="stylesheet"
-			href="./styles/index.css"
-		/>
-		<script
-			defer
-			type="module"
-			src="./scripts/index.mjs"
-		></script>
-	</head>
+    <link
+      rel="icon"
+      href="./images/favicon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="stylesheet"
+      href="./styles/index.css"
+    />
+    <script
+      defer
+      type="module"
+      src="./scripts/index.mjs"
+    ></script>
+  </head>
 
-	<body>
-		<div id="game">
-			<div a-vars>
-				<div
-					a-font="d"
-					a-color="d"
-				>
-					<!-- main -->
-					<main
-						a-theme="jupiter"
-						a-grid="4"
-						a-fluid
-						a-container
-					>
-						<div
-							a-template="field"
-							a-grid-col="3"
-						></div>
+  <body>
+    <div id="game">
+      <div a-vars>
+        <div
+          a-font="d"
+          a-color="d"
+        >
+          <!-- main -->
+          <main
+            a-theme="jupiter"
+            a-grid="4"
+            a-grid-rows
+            a-window-size
+            a-container
+          >
+            <div
+              a-template="field"
+              a-fluid
+              a-grid-col="3"
+            ></div>
 
-						<div a-grid>
-							<div a-template="themes"></div>
-							<div a-template="configure"></div>
-							<div a-template="rules"></div>
-							<div a-template="controls"></div>
-						</div>
-					</main>
-					<!-- /main -->
-				</div>
-			</div>
-		</div>
-	</body>
+            <div a-grid>
+              <div a-template="themes"></div>
+              <div a-template="configure"></div>
+              <div a-template="rules"></div>
+              <div a-template="controls"></div>
+              <div a-template="info"></div>
+            </div>
+          </main>
+          <!-- /main -->
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

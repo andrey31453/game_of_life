@@ -3,38 +3,44 @@ import {
   Node_By_Attribute,
   State,
   Handler,
+  vars,
 } from '../bunddler.mjs'
 
 const default_vars = {
   /* colors */
 
-  ['--color--d']: 'red',
-  ['--f-color']: 'white',
-  ['--b-color']: 'black',
+  [vars.color_primary]: 'red',
+  [vars.color_secondary]: 'green',
+
+  [vars.font_color_primary]: '#fafffa',
+  [vars.font_color_secondary]: '#cccccc',
+
+  [vars.background_color_primary]: '#111411',
+  [vars.background_color_secondary]: '#222622',
 
   /* distances */
 
-  ['--gap--s']: '8px',
-  ['--gap--d']: '12px',
-  ['--gap--l']: '16px',
-  ['--gap--xl']: '20px',
+  [vars.gap_s]: '8px',
+  [vars.gap_d]: '12px',
+  [vars.gap_l]: '16px',
+  [vars.gap_xl]: '20px',
 
   /* font params */
 
-  ['--font-size--s']: '14px',
-  ['--font-size--d']: '16px',
-  ['--font-size--l']: '20px',
-  ['--font-size--xl']: '24px',
+  [vars.font_size_s]: '14px',
+  [vars.font_size_d]: '16px',
+  [vars.font_size_l]: '20px',
+  [vars.font_size_xl]: '24px',
 
-  ['--line-height--s']: '22px',
-  ['--line-height--d']: '26px',
-  ['--line-height--l']: '30px',
-  ['--line-height--xl']: '48px',
+  [vars.line_height_s]: '22px',
+  [vars.line_height_d]: '26px',
+  [vars.line_height_l]: '30px',
+  [vars.line_height_xl]: '48px',
 
-  ['--font-weight--s']: '100',
-  ['--font-weight--d']: '300',
-  ['--font-weight--l']: '400',
-  ['--font-weight--xl']: '700',
+  [vars.font_weight_s]: '100',
+  [vars.font_weight_d]: '300',
+  [vars.font_weight_l]: '400',
+  [vars.font_weight_xl]: '700',
 }
 
 const Theme_Vars = new Target_Iterator(
@@ -87,6 +93,6 @@ class Node_Vars {
 export const Theme_Handler = new Handler((v) => {
   const vars = new Theme_Vars(v).value
 
-  new State().theme = vars
+  new State().vars = vars
   new Node_Vars(vars)
 }, 'alien').value

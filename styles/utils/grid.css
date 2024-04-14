@@ -3,7 +3,9 @@
 [a-grid] {
 	display: grid;
 	grid-template-rows: max-content;
-	gap: var(--gap--d)
+	gap: var(--gap--d);
+
+	align-items: flex-start;
 }
 
 [a-grid="2"] {
@@ -25,6 +27,42 @@
 [a-grid="6"] {
 	grid-template-columns: repeat(6, 1fr);
 }
+
+/* align */
+
+[a-align-start] {
+	align-items: flex-start;
+}
+
+[a-align-end] {
+	align-items: flex-end;
+}
+
+[a-align-center] {
+	align-items: flex-center;
+}
+
+
+/* grid-rows */
+
+[a-grid-rows] {
+	grid-template-rows: 1fr
+}
+
+[a-grid-rows="2"] {
+	grid-template-rows: repeat(2, 1fr)
+}
+
+
+[a-grid-rows="3"] {
+	grid-template-rows: repeat(3, 1fr)
+}
+
+
+[a-grid-rows="4"] {
+	grid-template-rows: repeat(4, 1fr)
+}
+
 
 /* grid-col */
 

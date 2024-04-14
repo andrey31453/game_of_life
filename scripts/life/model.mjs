@@ -1,63 +1,92 @@
-import { Hash, Live_Map, Lives_From_Map } from '../bunddler.mjs'
+import {
+  Hash,
+  Live_Map,
+  Lives_From_Map,
+  live_config,
+  Lives,
+} from '../bunddler.mjs'
 
 export class Life_Model {
   #on = false
-  #lives = 'not live'
-  #status
+  #status = live_config.statuses.on
+  #lives
+  #hash
+  #history
+  #time
+  #size
 
   constructor({ x, y, time, lives }) {
     this.#lives = lives
-    this.time = time
-    this.x = x
-    this.y = y
+    this.#time = time
+    this.#size = { x, y }
 
     this.#init()
   }
 
-  // public
+  //
+  //
+  //
+
+  // TODO add new game method
+  // TODO add update live state method
 
   start = () => {
     this.#on = true
-    this.#lives = 'live'
     this.#recurse()
   }
 
   pause = () => (this.#on = false)
 
-  clear = () => (this.hash = new Hash().value)
+  clear = () => (this.#lives = new Lives().value)
 
-  // gets
+  //
+  //
+  //
 
   get state() {
     return {
       status: this.#status,
-      value: this.#lives,
+
+      lives: this.#lives,
+      lives: this.#size,
+
+      history: this.#history,
+
+      duration: this.#duration,
+      hash: this.#hash,
     }
+  }
+
+  // TODO add full correctly method to calc duration
+  get #duration() {
+    return (this.#history.length - 1) * this.#time
   }
 
   get #coords_config() {
     return {
-      x_max: this.x,
-      y_max: this.y,
+      x_max: this.#size.x,
+      y_max: this.#size.y,
     }
   }
 
   get #is_won() {
-    return new Set(this.history).size !== this.history.length
+    return new Set(this.#history).size !== this.#history.length
   }
 
   get #is_loose() {
     return !this.#lives.length
   }
 
-  // private
+  //
+  //
+  //
 
   #init = () => {
-    this.history = []
+    this.#history = []
     this.#update_history()
   }
 
-  #recurse = () => setTimeout(this.#generation, this.time)
+  #recurse = () => setTimeout(this.#generation, this.#time)
 
   #generation = () => {
     if (!this.#on) return
@@ -80,7 +109,7 @@ export class Life_Model {
   }
 
   #update_history = () => {
-    this.history.push(new Hash(this.#lives).value)
+    this.#history.push((this.#hash = new Hash(this.#lives).value))
   }
 
   #check_to_end_game = () => {
@@ -89,12 +118,12 @@ export class Life_Model {
   }
 
   #won = () => {
-    this.#status = 'won'
+    this.#status = live_config.statuses.won
     this.pause()
   }
 
   #loose = () => {
-    this.#status = 'loose'
+    this.#status = live_config.statuses.loose
     this.pause()
   }
 }

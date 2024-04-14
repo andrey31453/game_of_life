@@ -5,4 +5,4 @@ export const Life_Handler = new Handler((v, e) => {
 
   if (life_controller.not_valid_key(v)) return
   life_controller[v]()
-}).value
+}, 'update').value

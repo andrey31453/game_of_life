@@ -2,6 +2,7 @@
 
 export * from './shared/helpers.mjs'
 export * from './shared/utils.mjs'
+export * from './shared/canvas.mjs'
 export * from './shared/config.mjs'
 
 // entities

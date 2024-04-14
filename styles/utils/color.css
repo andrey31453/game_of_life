@@ -1,4 +1,4 @@
 [a-color="d"] {
-	color: var(--f-color);
-	background-color: var(--b-color);
+	color: var(--font-color--primary);
+	background-color: var(--background-color--primary);
 }

@@ -15,7 +15,8 @@ export const Life_Controller = new Singleton(
     constructor() {
       this.#model = new Life_Model(this.#state.config)
       this.#view = new Life_View(
-        new Node_By_Attribute('field').value,
+        new Node_By_Attribute('game-field').value,
+        new Node_By_Attribute('game-info').value,
         this.#update,
         this.#state.vars
       )

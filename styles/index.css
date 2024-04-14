@@ -1,7 +1,6 @@
-@layer reset, fonts, default, theme, utils;
+@layer reset, fonts, utils, maket;
 
 @import url('./reset/reset.css') layer(reset);
 @import url('./fonts/fonts.css') layer(fonts);
-@import url('./default/default.css') layer(default);
-@import url('./theme/theme.css') layer(theme);
 @import url('./utils/utils.css') layer(utils);
+@import url('./maket/maket.css') layer(maket);
