@@ -31,6 +31,11 @@ export const Life_Controller = new Singleton(
 
     // public
 
+    click = (e) => {
+      this.#model.live_toggle(this.#view.click(e))
+      this.#view.update()
+    }
+
     start = () => {
       this.#model.start()
       this.#view.start()
@@ -46,6 +51,6 @@ export const Life_Controller = new Singleton(
       this.#view.update()
     }
 
-    not_valid_key = (key) => !['start', 'pause', 'clear'].includes(key)
+    not_valid_key = (key) => !['start', 'pause', 'clear', 'click'].includes(key)
   }
 )

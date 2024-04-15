@@ -31,6 +31,7 @@ export class Life_Model {
   // TODO add update live state method
 
   start = () => {
+    this.#init()
     this.#on = true
     this.#recurse()
   }
@@ -40,6 +41,13 @@ export class Life_Model {
   clear = () => {
     this.#lives = new Lives().value
     this.#init()
+  }
+
+  live_toggle = (live) => {
+    const lives_set = new Set(this.#lives)
+    lives_set.has(live) ? lives_set.delete(live) : lives_set.add(live)
+    this.#lives = new Lives([...lives_set]).value
+    this.#actuality_history()
   }
 
   //
@@ -113,8 +121,15 @@ export class Life_Model {
   }
 
   #update_history = () => {
-    this.#history.push((this.#hash = new Hash(this.#lives).value))
+    this.#history.push(this.#update_hash())
   }
+
+  #actuality_history = () => {
+    this.#history.pop(0, -1)
+    this.#update_history()
+  }
+
+  #update_hash = () => (this.#hash = new Hash(this.#lives).value)
 
   #check_to_end_game = () => {
     if (this.#is_loose) return this.#loose()

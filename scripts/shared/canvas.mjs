@@ -48,10 +48,30 @@ class Canvas_Round {
   }
 }
 
+class Canvas_Circle {
+  #options
+  #two_pi = 2 * Math.PI
+
+  constructor(options) {
+    this.#options = options
+  }
+
+  drow = (node, ctx, config) => {
+    ctx.fillStyle = this.#options.style.color
+    const { width, height } = new Canvas_Coords(this.#options.position, config)
+
+    ctx.beginPath()
+    ctx.arc(width, height, this.#options.style.radius, 0, this.#two_pi)
+    ctx.closePath()
+    ctx.fill()
+  }
+}
+
 export class Canvas_Elem {
   #elems = {
     text: Canvas_Text,
     round: Canvas_Round,
+    circle: Canvas_Circle,
   }
 
   constructor(type, options) {

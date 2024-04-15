@@ -27,6 +27,7 @@ export * from './templates/templates.mjs'
 export * from './handlers/config.mjs'
 export * from './handlers/life.mjs'
 export * from './handlers/theme.mjs'
+export * from './handlers/field.mjs'
 
 export * from './handlers/handlers.mjs'
 

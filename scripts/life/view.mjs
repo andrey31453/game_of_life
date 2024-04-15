@@ -96,10 +96,19 @@ class Life_Field_View {
     if (this.#not_need_update(model.hash)) return
 
     this.#update_state(model)
-    this.#canvas.update(this.#canvas_data(model))
+    this.#canvas.update(this.#canvas_data())
   }
 
+  // TODO remove magic ${}:${}
+  click = ({ x, y }) => `${this.#field_coord(x)}:${this.#field_coord(y)}`
+
   //
+
+  #field_coord = (mouse_coord) =>
+    Math.round(
+      (mouse_coord - 0.5 * decimal(this.#config[vars.icon.live.size])) /
+        decimal(this.#config[vars.icon.live.size])
+    )
 
   #not_need_update = (hash) => this.#state.hash === hash
 
@@ -109,19 +118,24 @@ class Life_Field_View {
     this.#state.size = size
   }
 
-  #canvas_data = () => [...this.#fields()]
+  #canvas_data = () => [...this.#emptys(), ...this.#lives()]
 
-  #fields = () =>
+  #fields = (cb) =>
     iterate(this.#state.size.x, (x) =>
-      iterate(this.#state.size.y, (y) =>
-        this.#field(
-          (x + 0.5) / this.#state.size.x,
-          (y + 0.5) / this.#state.size.y
-        )
-      )
-    ).flat()
+      iterate(this.#state.size.y, (y) => cb(x, y))
+    )
+      .flat()
+      .filter(Boolean)
 
-  #field = (x, y) =>
+  #emptys = () =>
+    this.#fields((x, y) =>
+      this.#empty(
+        (x + 0.5) / this.#state.size.x,
+        (y + 0.5) / this.#state.size.y
+      )
+    )
+
+  #empty = (x, y) =>
     new Canvas_Elem('round', {
       style: {
         radius:
@@ -130,6 +144,31 @@ class Life_Field_View {
           decimal(this.#config[vars.icon.live.size]),
         color: this.#config[vars.color.secondary],
         width: this.#config[vars.icon.wrapper_width],
+      },
+      position: [x, y],
+    }).value
+
+  #lives = () =>
+    this.#fields((x, y) => {
+      if (this.#is_not_live(x, y)) return
+
+      return this.#live(
+        (x + 0.5) / this.#state.size.x,
+        (y + 0.5) / this.#state.size.y
+      )
+    })
+
+  // TODO remove magic ${x}:${y}
+  #is_not_live = (x, y) => !this.#state.lives.includes(`${x}:${y}`)
+
+  #live = (x, y) =>
+    new Canvas_Elem('circle', {
+      style: {
+        radius:
+          0.5 *
+          this.#config[vars.icon.live.inner_proportion] *
+          decimal(this.#config[vars.icon.live.size]),
+        color: this.#config[vars.color.primary],
       },
       position: [x, y],
     }).value
@@ -162,6 +201,8 @@ export class Life_View {
   }
 
   pause = () => (this.#on = false)
+
+  click = (e) => this.#field_view.click(e)
 
   //
 
