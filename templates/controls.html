@@ -1,5 +1,7 @@
-<section a-grid="2">
+<section a-grid="3">
   <button
+    a-button
+    a-font="mark"
     a-click="live"
     a-value="clear"
   >
@@ -7,6 +9,8 @@
   </button>
 
   <button
+    a-button
+    a-font="mark"
     a-click="live"
     a-value="random"
   >
@@ -14,16 +18,22 @@
   </button>
 
   <button
-    a-click="live"
-    a-value="start"
-  >
-     Старт
-  </button>
-
-  <button
+    a-button
+    a-font="mark"
     a-click="live"
     a-value="pause"
   >
     Пауза
+  </button>
+
+  <div a-grid-col="2"></div>
+
+  <button
+    a-button="primary"
+    a-font="mark"
+    a-click="live"
+    a-value="start"
+  >
+     Старт
   </button>
 </section>

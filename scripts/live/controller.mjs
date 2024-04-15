@@ -50,7 +50,10 @@ export const Live_Controller = new Singleton(
       this.#view.update()
     }
 
-    update = () => this.#view.update()
+    update = () => {
+      this.#model.update_config()
+      this.#view.update_config()
+    }
 
     random = () => {
       this.#model.random()

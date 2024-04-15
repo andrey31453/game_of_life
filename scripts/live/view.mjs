@@ -12,16 +12,18 @@ import {
 //
 
 class Live_Info_View {
+  #node
   #canvas
   #state = {}
   #config
   #get_config
 
   constructor(node, get_config) {
+    this.#node = node
     this.#get_config = get_config
     this.#update_config()
 
-    this.#canvas = new Canvas(node, {
+    this.#canvas = new Canvas(this.#node, {
       background: this.#config[vars.background_color.primary],
       padding: this.#config[vars.gap.s],
     })
@@ -30,9 +32,16 @@ class Live_Info_View {
   //
 
   update = (model) => {
-    console.log('model: ', model)
     this.#update_state(model)
     this.#canvas.update(this.#canvas_data())
+  }
+
+  update_config = () => {
+    this.#update_config()
+    this.#canvas = new Canvas(this.#node, {
+      background: this.#config[vars.background_color.primary],
+      padding: this.#config[vars.gap.s],
+    })
   }
 
   //
@@ -84,16 +93,18 @@ class Live_Info_View {
 //
 
 class Live_Field_View {
+  #node
   #canvas
   #state = {}
   #config
   #get_config
 
   constructor(node, get_config) {
+    this.#node = node
     this.#get_config = get_config
     this.#update_config()
 
-    this.#canvas = new Canvas(node, {
+    this.#canvas = new Canvas(this.#node, {
       background: this.#config[vars.background_color.secondary],
       padding: this.#config[vars.gap.l],
       width: decimal(this.#config[vars.icon.live.size]) * this.#config.x,
@@ -104,12 +115,21 @@ class Live_Field_View {
   //
 
   update = (model) => {
-    this.#update_config()
-
     if (this.#not_need_update(model.hash)) return
 
+    this.#update_config()
     this.#update_state(model)
     this.#canvas.update(this.#canvas_data())
+  }
+
+  update_config = () => {
+    this.#update_config()
+    this.#canvas = new Canvas(this.#node, {
+      background: this.#config[vars.background_color.secondary],
+      padding: this.#config[vars.gap.l],
+      width: decimal(this.#config[vars.icon.live.size]) * this.#config.x,
+      height: decimal(this.#config[vars.icon.live.size]) * this.#config.y,
+    })
   }
 
   // TODO remove magic ${}:${}
@@ -119,6 +139,7 @@ class Live_Field_View {
 
   #update_config = () => {
     this.#config = this.#get_config()
+    this.#state.hash = null
   }
 
   #field_coord = (mouse_coord) =>
@@ -204,6 +225,12 @@ export class Live_View {
   //
 
   update = () => this.#update()
+
+  update_config = () => {
+    this.#info_view.update_config()
+    this.#field_view.update_config()
+    this.#update()
+  }
 
   start = () => {
     this.#on = true

@@ -17,6 +17,8 @@ export class Live_Model {
 
     this.#update_config()
     this.#init()
+
+    this.#state.lives = this.#get_config().lives
   }
 
   //
@@ -36,6 +38,12 @@ export class Live_Model {
 
   clear = () => {
     this.#state.lives = new Lives().value
+    this.#init()
+  }
+
+  update_config = () => {
+    this.#update_config()
+    this.#filter_lives()
     this.#init()
   }
 
@@ -64,15 +72,6 @@ export class Live_Model {
     }
   }
 
-  #update_config = () => {
-    const { x, y, time, lives, live_chance } = this.#get_config()
-
-    this.#state.lives = lives
-    this.#state.live_chance = live_chance
-    this.#state.time = time
-    this.#state.size = { x, y }
-  }
-
   // TODO add full correctly method to calc duration
   get #duration() {
     return (this.#state.history.length - 1) * this.#state.time
@@ -96,6 +95,23 @@ export class Live_Model {
   //
   //
   //
+
+  #filter_lives = () =>
+    (this.#state.lives = this.#state.lives.filter(this.#valid_live))
+
+  // TODO remove magik :
+  #valid_live = (live) => {
+    const [x, y] = live.split(':')
+    return +x < this.#state.size.x && +y < this.#state.size.y
+  }
+
+  #update_config = () => {
+    const { x, y, time, live_chance } = this.#get_config()
+
+    this.#state.live_chance = +live_chance
+    this.#state.time = +time
+    this.#state.size = { x: +x, y: +y }
+  }
 
   #create_random_lives = () => {
     this.#state.lives = new Lives(

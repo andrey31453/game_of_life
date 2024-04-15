@@ -1,0 +1,17 @@
+[a-input] {
+	border: 0;
+	padding: var(--gap--s);
+	border-radius: var(--gap--s);
+}
+
+[a-button] {
+	cursor: pointer;
+	border: 0;
+	padding: var(--gap--s);
+	border-radius: var(--gap--s);
+}
+
+[a-button="primary"] {
+	background-color: var(--color--secondary);
+	color: var(--color--primary);
+}
