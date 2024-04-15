@@ -3,8 +3,8 @@ import { Target_Iterator, vars } from '../bunddler.mjs'
 const default_vars = {
   // colors
 
-  [vars.color.primary]: 'red',
-  [vars.color.secondary]: 'green',
+  [vars.color.primary]: '#ed3cca',
+  [vars.color.secondary]: '#7c1af860',
 
   [vars.font_color.primary]: '#fafffa',
   [vars.font_color.secondary]: '#cccccc',
@@ -48,25 +48,25 @@ const default_vars = {
 
 export const Theme_Vars = new Target_Iterator(
   {
+    atom: {
+      ...default_vars,
+    },
+
     alien: {
       ...default_vars,
     },
 
-    astronaut: {
-      ...default_vars,
-    },
-
-    atom: {
-      ...default_vars,
-    },
+    // astronaut: {
+    //   ...default_vars,
+    // },
 
     chemical: {
       ...default_vars,
     },
 
-    jupiter: {
-      ...default_vars,
-    },
+    // jupiter: {
+    //   ...default_vars,
+    // },
 
     meteorite: {
       ...default_vars,

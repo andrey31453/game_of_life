@@ -1,25 +1,56 @@
-<section a-grid>
-  <h2>Ширина</h2>
-  <input
-    type="number"
-    a-input="config"
-    a-value="x"
-    value="21"
-  />
+<section
+  a-grid
+  a-gap="xl"
+>
+  <div
+    a-grid
+    a-gap="s"
+  >
+    <div a-font="mark">Ширина</div>
+    <input
+      type="number"
+      a-input="config"
+      a-value="x"
+      value="21"
+    />
+  </div>
 
-  <h2>Высота</h2>
-  <input
-    type="number"
-    a-input="config"
-    a-value="y"
-    value="21"
-  />
+  <div
+    a-grid
+    a-gap="s"
+  >
+    <div a-font="mark">Высота</div>
+    <input
+      type="number"
+      a-input="config"
+      a-value="y"
+      value="21"
+    />
+  </div>
 
-  <h2>Время 1 генерации (мс)</h2>
-  <input
-    type="number"
-    a-input="config"
-    a-value="time"
-    value="300"
-  />
+  <div
+    a-grid
+    a-gap="s"
+  >
+    <div a-font="mark">Время 1 генерации (мс)</div>
+    <input
+      type="number"
+      a-input="config"
+      a-value="time"
+      value="300"
+    />
+  </div>
+
+  <div
+    a-grid
+    a-gap="s"
+  >
+    <div a-font="mark">Вероятность жизни (%)</div>
+    <input
+      type="number"
+      a-input="config"
+      a-value="live_chance"
+      value="10"
+    />
+  </div>
 </section>

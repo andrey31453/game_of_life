@@ -1,27 +1,26 @@
 import {
   Node_By_Attribute,
   Singleton,
-  Life_Model,
-  Life_View,
+  Live_Model,
+  Live_View,
   State,
 } from '../bunddler.mjs'
 
-export const Life_Controller = new Singleton(
+export const Live_Controller = new Singleton(
   class {
     #view
     #model
-    #state = new State()
 
     constructor() {
-      this.#model = new Life_Model(this.#state.config)
-      this.#view = new Life_View(
+      this.#model = new Live_Model(() => new State().config)
+      this.#view = new Live_View(
         new Node_By_Attribute('game-field').value,
         new Node_By_Attribute('game-info').value,
         this.#update,
-        {
-          ...this.#state.vars,
-          ...this.#state.config,
-        }
+        () => ({
+          ...new State().vars,
+          ...new State().config,
+        })
       )
 
       this.#view.update()
@@ -51,6 +50,14 @@ export const Life_Controller = new Singleton(
       this.#view.update()
     }
 
-    not_valid_key = (key) => !['start', 'pause', 'clear', 'click'].includes(key)
+    update = () => this.#view.update()
+
+    random = () => {
+      this.#model.random()
+      this.#view.update()
+    }
+
+    not_valid_key = (key) =>
+      !['start', 'pause', 'clear', 'click', 'update', 'random'].includes(key)
   }
 )

@@ -25,14 +25,14 @@ export * from './templates/templates.mjs'
 // handlers
 
 export * from './handlers/config.mjs'
-export * from './handlers/life.mjs'
+export * from './handlers/live.mjs'
 export * from './handlers/theme.mjs'
 export * from './handlers/field.mjs'
 
 export * from './handlers/handlers.mjs'
 
-// life
+// live
 
-export * from './life/controller.mjs'
-export * from './life/model.mjs'
-export * from './life/view.mjs'
+export * from './live/controller.mjs'
+export * from './live/model.mjs'
+export * from './live/view.mjs'

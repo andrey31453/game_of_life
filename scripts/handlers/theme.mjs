@@ -1,4 +1,10 @@
-import { Theme_Vars, Handler, State, Node_By_Attribute } from '../bunddler.mjs'
+import {
+  Theme_Vars,
+  Handler,
+  State,
+  Node_By_Attribute,
+  Live_Controller,
+} from '../bunddler.mjs'
 
 class Node_Vars {
   constructor(vars) {
@@ -15,4 +21,5 @@ export const Theme_Handler = new Handler((v) => {
 
   new State().vars = vars
   new Node_Vars(vars)
+  new Live_Controller().update()
 }, 'atom').value

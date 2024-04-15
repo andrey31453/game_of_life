@@ -7,6 +7,7 @@ export const State = new Singleton(
       x: 21,
       y: 21,
       time: 300,
+      live_chance: 10,
       lives: new Lives([
         // S
         '1:8',

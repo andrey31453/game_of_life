@@ -4,7 +4,7 @@ import {
   Theme_Handler,
   Config_Handler,
   Target_Iterator,
-  Life_Handler,
+  Live_Handler,
   Field_Handler,
 } from '../bunddler.mjs'
 
@@ -20,7 +20,7 @@ const Event_Handler = new Target_Iterator(
   {
     theme: Theme_Handler,
     config: Config_Handler,
-    life: Life_Handler,
+    live: Live_Handler,
     field: Field_Handler,
   },
   () => {}

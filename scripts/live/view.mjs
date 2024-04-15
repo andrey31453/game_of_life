@@ -11,17 +11,20 @@ import {
 //
 //
 
-class Life_Info_View {
+class Live_Info_View {
   #canvas
   #state = {}
   #config
+  #get_config
 
-  constructor(node, config) {
+  constructor(node, get_config) {
+    this.get_config = get_config
+    this.#update_config()
+
     this.#canvas = new Canvas(node, {
-      background: config[vars.background_color.primary],
-      padding: config[vars.gap.s],
+      background: this.#config[vars.background_color.primary],
+      padding: this.#config[vars.gap.s],
     })
-    this.#config = config
   }
 
   //
@@ -43,6 +46,10 @@ class Life_Info_View {
   }
 
   //
+
+  #update_config = () => {
+    this.#config = this.get_config()
+  }
 
   #update_state = ({ duration, history, status }) => {
     this.#state.duration = duration / 1000
@@ -75,24 +82,29 @@ class Life_Info_View {
 //
 //
 
-class Life_Field_View {
+class Live_Field_View {
   #canvas
   #state = {}
   #config
+  #get_config
 
-  constructor(node, config) {
+  constructor(node, get_config) {
+    this.get_config = get_config
+    this.#update_config()
+
     this.#canvas = new Canvas(node, {
-      background: config[vars.background_color.secondary],
-      padding: config[vars.gap.l],
-      width: decimal(config[vars.icon.live.size]) * config.x,
-      height: decimal(config[vars.icon.live.size]) * config.y,
+      background: this.#config[vars.background_color.secondary],
+      padding: this.#config[vars.gap.l],
+      width: decimal(this.#config[vars.icon.live.size]) * this.#config.x,
+      height: decimal(this.#config[vars.icon.live.size]) * this.#config.y,
     })
-    this.#config = config
   }
 
   //
 
   update = (model) => {
+    this.#update_config()
+
     if (this.#not_need_update(model.hash)) return
 
     this.#update_state(model)
@@ -103,6 +115,10 @@ class Life_Field_View {
   click = ({ x, y }) => `${this.#field_coord(x)}:${this.#field_coord(y)}`
 
   //
+
+  #update_config = () => {
+    this.#config = this.get_config()
+  }
 
   #field_coord = (mouse_coord) =>
     Math.round(
@@ -178,16 +194,16 @@ class Life_Field_View {
 //
 //
 
-export class Life_View {
+export class Live_View {
   #info_view
   #field_view
   #get_model
   #model
   #on = false
 
-  constructor(field_node, info_node, get_model, config) {
-    this.#info_view = new Life_Info_View(info_node, config)
-    this.#field_view = new Life_Field_View(field_node, config)
+  constructor(field_node, info_node, get_model, get_config) {
+    this.#info_view = new Live_Info_View(info_node, get_config)
+    this.#field_view = new Live_Field_View(field_node, get_config)
     this.#get_model = get_model
   }
 

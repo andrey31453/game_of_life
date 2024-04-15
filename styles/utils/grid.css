@@ -28,6 +28,25 @@
 	grid-template-columns: repeat(6, 1fr);
 }
 
+/* gap */
+
+
+[a-gap] {
+	gap: var(--gap--d);
+}
+
+[a-gap="s"] {
+	gap: var(--gap--s);
+}
+
+[a-gap="l"] {
+	gap: var(--gap--l);
+}
+
+[a-gap="xl"] {
+	gap: var(--gap--xl);
+}
+
 /* align */
 
 [a-align-start] {
