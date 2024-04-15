@@ -1,5 +1,5 @@
 ## start
 
-`vscode liveserver`
-or
+`vscode liveserver`\
+**или**\
 `npx liveserver`
