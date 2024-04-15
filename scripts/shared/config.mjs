@@ -50,6 +50,7 @@ export const vars = {
   background_color: {
     primary: '--background-color--primary',
     secondary: '--background-color--secondary',
+    contrast: '--background-color--contrast',
   },
 
   // icons
@@ -60,9 +61,16 @@ export const vars = {
       wrapper_width: '--icon-size--live--wrapper_width',
       wrapper_proportion: '--icon-size--live--wrapper_proportion',
       inner_proportion: '--icon--live--inner_proportion',
+      empty_type: '--icon--live--empty_type',
     },
 
     theme_size: '--icon--theme_size',
+  },
+
+  // form
+
+  form: {
+    border_width: '--form--border_width',
   },
 
   // distances

@@ -37,6 +37,8 @@ class Canvas_Round {
   }
 
   drow = (node, ctx, config) => {
+    if (!+this.#options.style.width) return
+
     ctx.lineWidth = this.#options.style.width
     ctx.strokeStyle = this.#options.style.color
     const { width, height } = new Canvas_Coords(this.#options.position, config)

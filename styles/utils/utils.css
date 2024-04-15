@@ -4,7 +4,7 @@
 @import './container.css';
 @import './canvas.css';
 @import './scroll.css';
-@import './form.css';
+
 
 [a-window-size] {
 	min-width: 100dvw;

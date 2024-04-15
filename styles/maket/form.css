@@ -1,14 +1,16 @@
 [a-input] {
-	border: 0;
+	border: var(--form--border_width) solid var(--font-color--primary);
 	padding: var(--gap--s);
 	border-radius: var(--gap--s);
+	background-color: var(--background-color--contrast);
 }
 
 [a-button] {
 	cursor: pointer;
-	border: 0;
 	padding: var(--gap--s);
 	border-radius: var(--gap--s);
+	border: var(--form--border_width) solid var(--font-color--primary);
+	background-color: var(--background-color--contrast);
 }
 
 [a-button="primary"] {

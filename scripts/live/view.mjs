@@ -167,14 +167,14 @@ class Live_Field_View {
     ).value
 
   #empty = (x, y) =>
-    new Canvas_Elem('round', {
+    new Canvas_Elem(this.#config[vars.icon.live.empty_typy], {
       style: {
         radius:
           0.5 *
           this.#config[vars.icon.live.wrapper_proportion] *
           decimal(this.#config[vars.icon.live.size]),
         color: this.#config[vars.color.secondary],
-        width: this.#config[vars.icon.wrapper_width],
+        width: decimal(this.#config[vars.icon.live.wrapper_width]),
       },
       position: [x, y],
     }).value
