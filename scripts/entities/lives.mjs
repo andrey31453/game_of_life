@@ -1,4 +1,4 @@
-import { Init_lives } from '../bunddler.mjs'
+import { Init_lives, iterate } from '../bunddler.mjs'
 
 export const live_delimiter = ':'
 
@@ -29,5 +29,13 @@ export class Lives {
         new Is_Valid_Live(lives, live).value ? [...lives, live] : lives,
       new Init_lives().value
     )
+  }
+}
+
+export class Fields {
+  constructor(size, cb) {
+    this.value = iterate(size.x, (x) => iterate(size.y, (y) => cb(x, y)))
+      .flat()
+      .filter(Boolean)
   }
 }

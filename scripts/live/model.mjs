@@ -4,7 +4,7 @@ import {
   Lives_From_Map,
   live_config,
   Lives,
-  iterate,
+  Fields,
 } from '../bunddler.mjs'
 
 export class Live_Model {
@@ -48,23 +48,20 @@ export class Live_Model {
 
   // TODO remove magic  `${x}:${y}`
   // TODO rewrite
-  random = () =>
-    (this.#state.lives = new Lives(
-      iterate(this.#state.size.x, (x) =>
-        iterate(this.#state.size.y, (y) =>
-          Math.random() < 0.01 * this.#state.live_chance ? `${x}:${y}` : false
-        )
-      )
-        .flat()
-        .filter(Boolean)
-    ).value)
+  random = () => {
+    this.#create_random_lives()
+    this.#init()
+  }
 
   //
   //
   //
 
   get state() {
-    return { ...this.#state }
+    return {
+      ...this.#state,
+      duration: this.#duration,
+    }
   }
 
   #update_config = () => {
@@ -99,6 +96,14 @@ export class Live_Model {
   //
   //
   //
+
+  #create_random_lives = () => {
+    this.#state.lives = new Lives(
+      new Fields(this.#state.size, (x, y) =>
+        Math.random() < 0.01 * this.#state.live_chance ? `${x}:${y}` : false
+      ).value
+    ).value
+  }
 
   #init = () => {
     this.#state.status = live_config.statuses.on

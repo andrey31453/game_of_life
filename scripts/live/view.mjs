@@ -4,7 +4,7 @@ import {
   Canvas_Elem,
   vars,
   decimal,
-  iterate,
+  Fields,
 } from '../bunddler.mjs'
 
 //
@@ -18,7 +18,7 @@ class Live_Info_View {
   #get_config
 
   constructor(node, get_config) {
-    this.get_config = get_config
+    this.#get_config = get_config
     this.#update_config()
 
     this.#canvas = new Canvas(node, {
@@ -30,6 +30,7 @@ class Live_Info_View {
   //
 
   update = (model) => {
+    console.log('model: ', model)
     this.#update_state(model)
     this.#canvas.update(this.#canvas_data())
   }
@@ -48,7 +49,7 @@ class Live_Info_View {
   //
 
   #update_config = () => {
-    this.#config = this.get_config()
+    this.#config = this.#get_config()
   }
 
   #update_state = ({ duration, history, status }) => {
@@ -89,7 +90,7 @@ class Live_Field_View {
   #get_config
 
   constructor(node, get_config) {
-    this.get_config = get_config
+    this.#get_config = get_config
     this.#update_config()
 
     this.#canvas = new Canvas(node, {
@@ -117,7 +118,7 @@ class Live_Field_View {
   //
 
   #update_config = () => {
-    this.#config = this.get_config()
+    this.#config = this.#get_config()
   }
 
   #field_coord = (mouse_coord) =>
@@ -136,20 +137,13 @@ class Live_Field_View {
 
   #canvas_data = () => [...this.#emptys(), ...this.#lives()]
 
-  #fields = (cb) =>
-    iterate(this.#state.size.x, (x) =>
-      iterate(this.#state.size.y, (y) => cb(x, y))
-    )
-      .flat()
-      .filter(Boolean)
-
   #emptys = () =>
-    this.#fields((x, y) =>
+    new Fields(this.#state.size, (x, y) =>
       this.#empty(
         (x + 0.5) / this.#state.size.x,
         (y + 0.5) / this.#state.size.y
       )
-    )
+    ).value
 
   #empty = (x, y) =>
     new Canvas_Elem('round', {
@@ -165,14 +159,14 @@ class Live_Field_View {
     }).value
 
   #lives = () =>
-    this.#fields((x, y) => {
+    new Fields(this.#state.size, (x, y) => {
       if (this.#is_not_live(x, y)) return
 
       return this.#live(
         (x + 0.5) / this.#state.size.x,
         (y + 0.5) / this.#state.size.y
       )
-    })
+    }).value
 
   // TODO remove magic ${x}:${y}
   #is_not_live = (x, y) => !this.#state.lives.includes(`${x}:${y}`)
