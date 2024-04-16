@@ -49,7 +49,6 @@ export const Live_Controller = new Singleton(
     }
 
     update = () => {
-      console.log('update: ')
       this.#model.update_config()
       this.#view.update_config()
     }
