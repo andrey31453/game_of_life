@@ -116,6 +116,7 @@ class Live_Field_View {
 
   update = (model) => {
     if (this.#not_need_update(model.hash)) return
+    console.log('model: ', model)
 
     this.#update_config()
     this.#update_state(model)

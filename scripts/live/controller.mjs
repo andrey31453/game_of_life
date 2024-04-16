@@ -22,8 +22,6 @@ export const Live_Controller = new Singleton(
           ...new State().config,
         })
       )
-
-      this.#view.update()
     }
 
     #update = () => this.#model.state
@@ -51,6 +49,7 @@ export const Live_Controller = new Singleton(
     }
 
     update = () => {
+      console.log('update: ')
       this.#model.update_config()
       this.#view.update_config()
     }

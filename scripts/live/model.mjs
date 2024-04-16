@@ -5,6 +5,7 @@ import {
   live_config,
   Lives,
   Fields,
+  compare_arrays,
 } from '../bunddler.mjs'
 
 export class Live_Model {
@@ -16,9 +17,8 @@ export class Live_Model {
     this.#get_config = get_config
 
     this.#update_config()
-    this.#init()
-
-    this.#state.lives = this.#get_config().lives
+    this.#state.new_lives = this.#get_config().lives
+    this.#setup()
   }
 
   //
@@ -29,7 +29,7 @@ export class Live_Model {
   // TODO add update live state method
 
   start = () => {
-    this.#init()
+    this.#setup()
     this.#on = true
     this.#recurse()
   }
@@ -38,15 +38,16 @@ export class Live_Model {
 
   clear = () => {
     this.#state.lives = new Lives().value
-    this.#init()
+    this.#setup()
   }
 
   update_config = () => {
     this.#update_config()
     this.#filter_lives()
-    this.#init()
+    this.#setup()
   }
 
+  // TODO rewrite when lives rewrite to set
   live_toggle = (live) => {
     const lives_set = new Set(this.#state.lives)
     lives_set.has(live) ? lives_set.delete(live) : lives_set.add(live)
@@ -54,11 +55,11 @@ export class Live_Model {
     this.#actuality_history()
   }
 
-  // TODO remove magic  `${x}:${y}`
+  // TODO remove magic `${x}:${y}`
   // TODO rewrite
   random = () => {
     this.#create_random_lives()
-    this.#init()
+    this.#setup()
   }
 
   //
@@ -114,17 +115,22 @@ export class Live_Model {
   }
 
   #create_random_lives = () => {
-    this.#state.lives = new Lives(
+    this.#state.new_lives = new Lives(
       new Fields(this.#state.size, (x, y) =>
         Math.random() < 0.01 * this.#state.live_chance ? `${x}:${y}` : false
       ).value
     ).value
+    this.#state.lives = []
   }
 
-  #init = () => {
+  #setup = () => {
     this.#state.status = live_config.statuses.on
+
     this.#state.history = []
     this.#update_history()
+
+    this.#state.lives = []
+    this.#update_lives()
   }
 
   #recurse = () => setTimeout(this.#generation, this.#state.time)
@@ -137,16 +143,25 @@ export class Live_Model {
   }
 
   #update = () => {
+    this.#update_new_lives()
     this.#update_lives()
     this.#update_history()
     this.#check_to_end_game()
   }
 
-  #update_lives = () => {
-    this.#state.lives = new Lives_From_Map(
+  #update_new_lives = () => {
+    this.#state.new_lives = new Lives_From_Map(
       this.#state.lives,
       new Live_Map(this.#state.lives, this.#coords_config).value
     ).value
+  }
+
+  #update_lives = () => {
+    ;[this.#state.deads, this.#state.borns] = compare_arrays(
+      this.#state.lives,
+      this.#state.new_lives
+    )
+    this.#state.lives = this.#state.new_lives
   }
 
   #update_history = () => {
@@ -154,7 +169,7 @@ export class Live_Model {
   }
 
   #actuality_history = () => {
-    this.#state.history.pop(0, -1)
+    this.#state.history.pop()
     this.#update_history()
   }
 
