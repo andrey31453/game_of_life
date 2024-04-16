@@ -126,11 +126,11 @@ export class Live_Model {
   #setup = () => {
     this.#state.status = live_config.statuses.on
 
-    this.#state.history = []
-    this.#update_history()
-
     this.#state.lives = []
     this.#update_lives()
+
+    this.#state.history = []
+    this.#update_history()
   }
 
   #recurse = () => setTimeout(this.#generation, this.#state.time)
