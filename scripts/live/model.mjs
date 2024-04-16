@@ -37,7 +37,7 @@ export class Live_Model {
   pause = () => (this.#on = false)
 
   clear = () => {
-    this.#state.lives = new Lives().value
+    this.#state.new_lives = new Lives().value
     this.#setup()
   }
 
