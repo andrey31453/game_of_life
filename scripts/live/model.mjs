@@ -5,7 +5,7 @@ import {
   live_config,
   Lives,
   Fields,
-  compare_arrays,
+  Deads_And_Borns,
 } from '../bunddler.mjs'
 
 export class Live_Model {
@@ -17,55 +17,10 @@ export class Live_Model {
     this.#get_config = get_config
 
     this.#update_config()
-    this.#state.new_lives = this.#get_config().lives
-    this.#setup()
+    this.#setup(this.#get_config().lives)
   }
 
-  //
-  //
-  //
-
-  // TODO add new game method
-  // TODO add update live state method
-
-  start = () => {
-    this.#on = true
-    this.#setup()
-    this.#recurse()
-  }
-
-  pause = () => (this.#on = false)
-
-  clear = () => {
-    this.#state.new_lives = new Lives().value
-    this.#setup()
-  }
-
-  update_config = () => {
-    this.#update_config()
-    this.#filter_lives()
-    this.#setup()
-  }
-
-  // TODO rewrite when lives rewrite to set
-  live_toggle = (live) => {
-    const lives_set = new Set(this.#state.lives)
-    lives_set.has(live) ? lives_set.delete(live) : lives_set.add(live)
-    this.#state.new_lives = new Lives([...lives_set]).value
-    this.#next_generate()
-    this.#change_history()
-  }
-
-  // TODO remove magic `${x}:${y}`
-  // TODO rewrite
-  random = () => {
-    this.#create_random_lives()
-    this.#setup()
-  }
-
-  //
-  //
-  //
+  // public
 
   get state() {
     return {
@@ -74,29 +29,43 @@ export class Live_Model {
     }
   }
 
-  // TODO add full correctly method to calc duration
+  // TODO add new game method
+  // TODO add update live state method
+
+  start = () => {
+    this.#on = true
+    this.#setup()
+    this.#loop()
+  }
+
+  pause = () => (this.#on = false)
+
+  clear = () => {
+    this.#setup(new Lives().value)
+  }
+
+  update_config = () => {
+    this.#update_config()
+    this.#filter_lives()
+    this.#setup(this.#state.lives)
+  }
+
+  // TODO rewrite when lives rewrite to set
+  live_toggle = (live) => {
+    const lives_set = new Set(this.#state.lives)
+    lives_set.has(live) ? lives_set.delete(live) : lives_set.add(live)
+    this.#setup(new Lives([...lives_set]).value)
+  }
+
+  random = () => {
+    this.#setup(this.#random_lives())
+  }
+
+  // public utils
+
   get #duration() {
     return (this.#state.history.length - 1) * this.#state.time
   }
-
-  get #coords_config() {
-    return {
-      x_max: this.#state.size.x,
-      y_max: this.#state.size.y,
-    }
-  }
-
-  get #is_won() {
-    return new Set(this.#state.history).size !== this.#state.history.length
-  }
-
-  get #is_loose() {
-    return !this.#state.lives.length
-  }
-
-  //
-  //
-  //
 
   #update_config = () => {
     const { x, y, time, live_chance } = this.#get_config()
@@ -106,13 +75,12 @@ export class Live_Model {
     this.#state.size = { x: +x, y: +y }
   }
 
-  #setup = () => {
+  #setup = (new_lives) => {
     this.#refresh()
-    this.#next_generate()
+    this.#next_generate(new_lives)
   }
 
   #update = () => {
-    this.#update_new_lives()
     this.#next_generate()
     this.#check_to_end_game()
   }
@@ -122,23 +90,30 @@ export class Live_Model {
     this.#state.history = []
   }
 
-  #next_generate = () => {
-    this.#update_lives()
+  #next_generate = (new_lives) => {
+    this.#update_lives(new_lives)
     this.#update_history()
   }
 
   // loop
 
-  #recurse = () => setTimeout(this.#generation, this.#state.time)
+  #loop = () => setTimeout(this.#generation, this.#state.time)
 
   #generation = () => {
     if (!this.#on) return
 
-    this.#recurse()
+    this.#loop()
     this.#update()
   }
 
   // lives
+
+  get #coords_config() {
+    return {
+      x_max: this.#state.size.x,
+      y_max: this.#state.size.y,
+    }
+  }
 
   #filter_lives = () =>
     (this.#state.lives = this.#state.lives.filter(this.#valid_live))
@@ -149,29 +124,21 @@ export class Live_Model {
     return +x < this.#state.size.x && +y < this.#state.size.y
   }
 
-  #create_random_lives = () => {
-    this.#state.new_lives = new Lives(
+  #random_lives = () =>
+    new Lives(
       new Fields(this.#state.size, (x, y) =>
         Math.random() < 0.01 * this.#state.live_chance ? `${x}:${y}` : false
       ).value
     ).value
-    this.#state.lives = []
-  }
 
-  // TODO move compare to Lives_From_Map
-  #update_new_lives = () => {
-    this.#state.new_lives = new Lives_From_Map(
+  #update_lives = (
+    new_lives = new Lives_From_Map(
       this.#state.lives,
       new Live_Map(this.#state.lives, this.#coords_config).value
     ).value
-  }
-
-  #update_lives = () => {
-    ;[this.#state.deads, this.#state.borns] = compare_arrays(
-      this.#state.lives,
-      this.#state.new_lives
-    )
-    this.#state.lives = [...this.#state.new_lives]
+  ) => {
+    ;[this.#state.lives, this.#state.deads, this.#state.borns] =
+      new Deads_And_Borns(this.#state.lives, new_lives).value
   }
 
   // history
@@ -180,16 +147,19 @@ export class Live_Model {
     this.#state.history.push(this.#update_hash())
   }
 
-  #change_history = () => {
-    this.#state.history.pop()
-    this.#update_history()
-  }
-
   // hash
 
   #update_hash = () => (this.#state.hash = new Hash(this.#state.lives).value)
 
   // end game
+
+  get #is_won() {
+    return new Set(this.#state.history).size !== this.#state.history.length
+  }
+
+  get #is_loose() {
+    return !this.#state.lives.length
+  }
 
   #check_to_end_game = () => {
     if (this.#is_loose) return this.#loose()

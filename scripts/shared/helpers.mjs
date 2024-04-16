@@ -19,7 +19,7 @@ export const decimal = (v) => `${v}`.replace(/\D/gi, '')
 export const iterate = (num, cb) => [...Array(num).keys()].map((i) => cb(i))
 
 // TODO rewrite to any quantity arrays
-export const compare_arrays = (array_1, array_2) => {
+export const uniques = (array_1, array_2) => {
   let unique_items_1 = []
   let unique_items_2 = []
   const set_1 = new Set(array_1)

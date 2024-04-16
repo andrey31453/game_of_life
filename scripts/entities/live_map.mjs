@@ -1,4 +1,9 @@
-import { live_delimiter, Init_live_Map, live_config } from '../bunddler.mjs'
+import {
+  live_delimiter,
+  Init_live_Map,
+  live_config,
+  uniques,
+} from '../bunddler.mjs'
 
 class Coord {
   constructor(coord, max) {
@@ -115,5 +120,11 @@ export class Lives_From_Map {
         new Is_Live(neigbours, new Live_Config(lives, live).value).value &&
         this.value.push(live)
     )
+  }
+}
+
+export class Deads_And_Borns {
+  constructor(old_lives, new_lives) {
+    this.value = [new_lives, ...uniques(old_lives, new_lives)]
   }
 }
