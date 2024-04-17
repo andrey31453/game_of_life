@@ -36,8 +36,40 @@ export const uniques = (array_1, array_2) => {
   return [unique_items_1, unique_items_2]
 }
 
-// TODO create type_of
-// TODO create type_is
+export const type_of = (target) =>
+  Object.prototype.toString
+    .call(target)
+    .split(' ')[1]
+    .toLowerCase()
+    .slice(0, -1)
+
+export const type_is = (target, type) =>
+  Object.prototype.toString
+    .call(target)
+    .split(' ')[1]
+    .toLowerCase()
+    .includes(type)
+
+export const throttle = (cb, timeout = 100) => {
+  let timer
+  return (...args) => {
+    if (timer) return
+    timer = setTimeout(() => {
+      cb(...args)
+      clearTimeout(timer)
+      timer = null
+    }, timeout)
+  }
+}
+
+export const debounce = (cb, timeout = 100) => {
+  let timer
+  return (...args) => {
+    timer && clearTimeout(timer)
+    timer = window.setTimeout(() => cb(...args), timeout)
+  }
+}
+
 // TODO create map_reduce
 // TODO create object_reduce
 // TODO create set_reduce

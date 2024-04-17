@@ -13,6 +13,7 @@ export * from './entities/node.mjs'
 export * from './entities/hash.mjs'
 export * from './entities/lives.mjs'
 export * from './entities/live_map.mjs'
+export * from './entities/canvas_data.mjs'
 
 // state
 

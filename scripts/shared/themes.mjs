@@ -14,7 +14,7 @@ const default_vars = {
   [vars.icon.live.wrapper_width]: '1px',
   [vars.icon.live.wrapper_proportion]: 0.9,
   [vars.icon.live.inner_proportion]: 0.6,
-  [vars.icon.live.empty_typy]: 'round',
+  [vars.icon.live.empty_type]: 'round',
 
   [vars.icon.theme_size]: '40px',
 
@@ -111,7 +111,7 @@ export const Theme_Vars = new Target_Iterator(
 
       [vars.icon.live.wrapper_proportion]: 0.9,
       [vars.icon.live.inner_proportion]: 0.9,
-      [vars.icon.live.empty_typy]: 'circle',
+      [vars.icon.live.empty_type]: 'circle',
     },
 
     star: {
@@ -141,7 +141,7 @@ export const Theme_Vars = new Target_Iterator(
 
       [vars.icon.live.wrapper_proportion]: 0.9,
       [vars.icon.live.inner_proportion]: 0.7,
-      [vars.icon.live.empty_typy]: 'circle',
+      [vars.icon.live.empty_type]: 'circle',
     },
   },
   []

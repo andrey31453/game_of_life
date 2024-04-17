@@ -4,7 +4,8 @@ import {
   Canvas_Elem,
   vars,
   decimal,
-  Fields,
+  Fields_Canvas_Data,
+  Update_Lives_Canvas_Data,
 } from '../bunddler.mjs'
 
 //
@@ -103,40 +104,68 @@ class Live_Field_View {
     this.#node = node
     this.#get_config = get_config
     this.#update_config()
-
-    this.#canvas = new Canvas(this.#node, {
-      background: this.#config[vars.background_color.secondary],
-      padding: this.#config[vars.gap.l],
-      width: decimal(this.#config[vars.icon.live.size]) * this.#config.x,
-      height: decimal(this.#config[vars.icon.live.size]) * this.#config.y,
-    })
+    this.#set_canvas()
   }
 
   //
 
-  // TODO wrap to throttle
   update = (model) => {
     if (this.#not_need_update(model.hash)) return
 
+    // TODO make delete update config?
     this.#update_config()
     this.#update_state(model)
-    this.#canvas.update(this.#canvas_data())
+    this.#update_fields()
   }
 
   update_config = () => {
     this.#update_config()
-    this.#canvas = new Canvas(this.#node, {
-      background: this.#config[vars.background_color.secondary],
-      padding: this.#config[vars.gap.l],
-      width: decimal(this.#config[vars.icon.live.size]) * this.#config.x,
-      height: decimal(this.#config[vars.icon.live.size]) * this.#config.y,
-    })
+    // TODO add update sizes method from canvas
+    this.#set_canvas()
+    this.#state.hard = true
+    this.#update_fields()
   }
 
   // TODO remove magic ${}:${}
   click = ({ x, y }) => `${this.#field_coord(x)}:${this.#field_coord(y)}`
 
   //
+
+  #set_canvas = () => {
+    this.#canvas = new Canvas(this.#node, {
+      background: this.#config[vars.background_color.secondary],
+      padding: this.#config[vars.gap.l],
+      width: decimal(this.#config[vars.icon.live.size]) * this.#config.x,
+      height: decimal(this.#config[vars.icon.live.size]) * this.#config.y,
+    })
+  }
+
+  #hard_update_fields = () => {
+    this.#canvas.update(
+      new Fields_Canvas_Data(this.#state.lives, this.#state.size, this.#config)
+        .value
+    )
+
+    this.#state.hard = false
+  }
+
+  #soft_update_fields = () => {
+    const { clears, lives, emptyes } = new Update_Lives_Canvas_Data({
+      borns: this.#state.borns,
+      deads: this.#state.deads,
+      size: this.#state.size,
+      config: this.#config,
+    })
+
+    this.#canvas.clears(clears)
+    this.#canvas.soft_update([...lives, ...emptyes])
+  }
+
+  #update_fields = () => {
+    if (!this.#state.lives) return
+
+    this.#state.hard ? this.#hard_update_fields() : this.#soft_update_fields()
+  }
 
   #update_config = () => {
     this.#config = this.#get_config()
@@ -151,59 +180,11 @@ class Live_Field_View {
 
   #not_need_update = (hash) => this.#state.hash === hash
 
-  #update_state = ({ lives, hash, size }) => {
-    this.#state.hash = hash
-    this.#state.lives = lives
-    this.#state.size = size
-  }
-
-  #canvas_data = () => [...this.#emptys(), ...this.#lives()]
-
-  #emptys = () =>
-    new Fields(this.#state.size, (x, y) =>
-      this.#empty(
-        (x + 0.5) / this.#state.size.x,
-        (y + 0.5) / this.#state.size.y
-      )
-    ).value
-
-  #empty = (x, y) =>
-    new Canvas_Elem(this.#config[vars.icon.live.empty_typy], {
-      style: {
-        radius:
-          0.5 *
-          this.#config[vars.icon.live.wrapper_proportion] *
-          decimal(this.#config[vars.icon.live.size]),
-        color: this.#config[vars.color.secondary],
-        width: decimal(this.#config[vars.icon.live.wrapper_width]),
-      },
-      position: [x, y],
-    }).value
-
-  #lives = () =>
-    new Fields(this.#state.size, (x, y) => {
-      if (this.#is_not_live(x, y)) return
-
-      return this.#live(
-        (x + 0.5) / this.#state.size.x,
-        (y + 0.5) / this.#state.size.y
-      )
-    }).value
-
-  // TODO remove magic ${x}:${y}
-  #is_not_live = (x, y) => !this.#state.lives.includes(`${x}:${y}`)
-
-  #live = (x, y) =>
-    new Canvas_Elem('circle', {
-      style: {
-        radius:
-          0.5 *
-          this.#config[vars.icon.live.inner_proportion] *
-          decimal(this.#config[vars.icon.live.size]),
-        color: this.#config[vars.color.primary],
-      },
-      position: [x, y],
-    }).value
+  #update_state = (state) =>
+    (this.#state = {
+      ...this.#state,
+      ...state,
+    })
 }
 
 //

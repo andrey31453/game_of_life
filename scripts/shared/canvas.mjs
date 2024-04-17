@@ -114,7 +114,7 @@ export class Canvas {
   #state
   #default_state
   #config
-  #canvas_config
+  #node_config
 
   constructor(node, config, default_state = []) {
     this.#node = node
@@ -128,45 +128,59 @@ export class Canvas {
 
   //
 
+  soft_update = (state) => {
+    this.#soft_drow(state)
+  }
+
+  clears = async (clears) => {
+    await wait_condition(() => this.#node_config)
+    clears.forEach(this.#clear)
+  }
+
   update = (state) => {
     this.#state = [...this.#default_state, ...state]
     this.#drow()
   }
 
-  update_config = (config) => {
-    this.#config = {
-      ...this.#config,
-      ...config,
-    }
-    this.#hard_drow()
+  update_config = async (config) => {
+    this.#update_config(config)
+    this.#resize()
   }
 
   //
 
-  #init = () => {
-    window.addEventListener('resize', this.#hard_drow)
-  }
+  #init = () => window.addEventListener('resize', this.#resize)
 
-  #hard_drow = async () => {
-    this.#canvas_config = await new Canvas_Config(
+  #update_config = (config) =>
+    (this.#config = {
+      ...this.#config,
+      ...config,
+    })
+
+  #update_node_config = async () => {
+    this.#node_config = await new Canvas_Config(
       this.#node,
       this.#config
     ).get_config()
-    this.#resize()
+  }
+
+  #resize = async () => {
+    await this.#update_node_config()
+    this.#update_node()
     this.#drow()
   }
 
-  #resize = () => {
-    this.#node.width = this.#canvas_config.width
-    this.#node.height = this.#canvas_config.height
+  #update_node = () => {
+    this.#node.width = this.#node_config.width
+    this.#node.height = this.#node_config.height
 
-    this.#node.style.background = this.#canvas_config.background
-    this.#node.style.top = this.#canvas_config.padding
-    this.#node.style.left = this.#canvas_config.padding
-    this.#node.style.right = this.#canvas_config.padding
-    this.#node.style.bottom = this.#canvas_config.padding
+    this.#node.style.background = this.#node_config.background
+    this.#node.style.top = this.#node_config.padding
+    this.#node.style.left = this.#node_config.padding
+    this.#node.style.right = this.#node_config.padding
+    this.#node.style.bottom = this.#node_config.padding
 
-    this.#node.parentElement.style.background = this.#canvas_config.background
+    this.#node.parentElement.style.background = this.#node_config.background
   }
 
   #drow = async () => {
@@ -174,18 +188,26 @@ export class Canvas {
     this.#clear()
 
     this.#state.forEach((canvas_elem) =>
-      canvas_elem.drow(this.#node, this.#ctx, this.#canvas_config)
+      canvas_elem.drow(this.#node, this.#ctx, this.#node_config)
     )
   }
 
-  #is_ready = () => Object.keys(this.#canvas_config || {}).length
+  #soft_drow = async (state) => {
+    await wait_condition(this.#is_ready, 100)
 
-  #clear = () => {
+    state.forEach((canvas_elem) =>
+      canvas_elem.drow(this.#node, this.#ctx, this.#node_config)
+    )
+  }
+
+  #is_ready = () => Object.keys(this.#node_config || {}).length
+
+  #clear = ([x1, y1, x2, y2] = [0, 0, 1, 1]) => {
     this.#ctx.clearRect(
-      0,
-      0,
-      this.#canvas_config.width,
-      this.#canvas_config.height
+      x1 * this.#node_config.width,
+      y1 * this.#node_config.height,
+      (x2 - x1) * this.#node_config.width,
+      (y2 - y1) * this.#node_config.height
     )
   }
 }

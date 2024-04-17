@@ -6,6 +6,7 @@ import {
   Lives,
   Fields,
   Deads_And_Borns,
+  debounce,
 } from '../bunddler.mjs'
 
 export class Live_Model {
@@ -15,6 +16,7 @@ export class Live_Model {
 
   constructor(get_config) {
     this.#get_config = get_config
+    this.#state.lives = []
 
     this.#update_config()
     this.#setup(this.#get_config().lives)
@@ -44,11 +46,11 @@ export class Live_Model {
     this.#setup(new Lives().value)
   }
 
-  update_config = () => {
+  update_config = debounce(() => {
     this.#update_config()
     this.#filter_lives()
     this.#setup(this.#state.lives)
-  }
+  })
 
   // TODO rewrite when lives rewrite to set
   live_toggle = (live) => {
@@ -137,8 +139,11 @@ export class Live_Model {
       new Live_Map(this.#state.lives, this.#coords_config).value
     ).value
   ) => {
+    // console.log('this.#state.lives: ', this.#state.lives)
     ;[this.#state.lives, this.#state.deads, this.#state.borns] =
       new Deads_And_Borns(this.#state.lives, new_lives).value
+
+    // console.log('this.#state.lives: ', this.#state.lives)
   }
 
   // history
