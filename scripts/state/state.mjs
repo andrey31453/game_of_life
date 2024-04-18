@@ -6,7 +6,7 @@ export const State = new Singleton(
       // TODO change value in state from input
       x: 21,
       y: 21,
-      time: 300,
+      time: 200,
       live_chance: 20,
       lives: new Lives([
         // C

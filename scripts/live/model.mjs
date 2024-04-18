@@ -6,7 +6,6 @@ import {
   Lives,
   Fields,
   Deads_And_Borns,
-  debounce,
 } from '../bunddler.mjs'
 
 export class Live_Model {
@@ -19,7 +18,7 @@ export class Live_Model {
     this.#state.lives = []
 
     this.#update_config()
-    this.#setup(this.#get_config().lives)
+    this.#reset(this.#get_config().lives)
   }
 
   // public
@@ -31,36 +30,33 @@ export class Live_Model {
     }
   }
 
-  // TODO add new game method
-  // TODO add update live state method
-
   start = () => {
     this.#on = true
-    this.#setup()
+    this.#reset()
     this.#loop()
   }
 
   pause = () => (this.#on = false)
 
   clear = () => {
-    this.#setup(new Lives().value)
+    this.#reset(new Lives().value)
   }
 
-  update_config = debounce(() => {
+  hard_update = () => {
     this.#update_config()
-    this.#filter_lives()
-    this.#setup(this.#state.lives)
-  })
+    this.#validate_lives()
+    this.#reset(this.#state.lives)
+  }
 
   // TODO rewrite when lives rewrite to set
   live_toggle = (live) => {
     const lives_set = new Set(this.#state.lives)
     lives_set.has(live) ? lives_set.delete(live) : lives_set.add(live)
-    this.#setup(new Lives([...lives_set]).value)
+    this.#reset(new Lives([...lives_set]).value)
   }
 
   random = () => {
-    this.#setup(this.#random_lives())
+    this.#reset(this.#random_lives())
   }
 
   // public utils
@@ -77,14 +73,9 @@ export class Live_Model {
     this.#state.size = { x: +x, y: +y }
   }
 
-  #setup = (new_lives) => {
+  #reset = (new_lives) => {
     this.#refresh()
     this.#next_generate(new_lives)
-  }
-
-  #update = () => {
-    this.#next_generate()
-    this.#check_to_end_game()
   }
 
   #refresh = () => {
@@ -94,6 +85,7 @@ export class Live_Model {
 
   #next_generate = (new_lives) => {
     this.#update_lives(new_lives)
+    this.#update_hash()
     this.#update_history()
   }
 
@@ -105,7 +97,8 @@ export class Live_Model {
     if (!this.#on) return
 
     this.#loop()
-    this.#update()
+    this.#next_generate()
+    this.#check_to_end_game()
   }
 
   // lives
@@ -117,7 +110,7 @@ export class Live_Model {
     }
   }
 
-  #filter_lives = () =>
+  #validate_lives = () =>
     (this.#state.lives = this.#state.lives.filter(this.#valid_live))
 
   // TODO remove magik :
@@ -138,23 +131,19 @@ export class Live_Model {
       this.#state.lives,
       new Live_Map(this.#state.lives, this.#coords_config).value
     ).value
-  ) => {
-    // console.log('this.#state.lives: ', this.#state.lives)
-    ;[this.#state.lives, this.#state.deads, this.#state.borns] =
-      new Deads_And_Borns(this.#state.lives, new_lives).value
-
-    // console.log('this.#state.lives: ', this.#state.lives)
-  }
+  ) =>
+    ([this.#state.lives, this.#state.deads, this.#state.borns] =
+      new Deads_And_Borns(this.#state.lives, new_lives).value)
 
   // history
 
   #update_history = () => {
-    this.#state.history.push(this.#update_hash())
+    this.#state.history.push(new Hash(this.#state.lives).value)
   }
 
   // hash
 
-  #update_hash = () => (this.#state.hash = new Hash(this.#state.lives).value)
+  #update_hash = () => {}
 
   // end game
 

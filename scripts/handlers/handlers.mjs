@@ -6,12 +6,20 @@ import {
   Target_Iterator,
   Live_Handler,
   Field_Handler,
+  Field_Scroll_Handler,
 } from '../bunddler.mjs'
+
+export const events = {
+  click: 'click',
+  input: 'input',
+  scroll: 'scroll',
+}
 
 const Event_Names = new Target_Iterator(
   {
-    click: ['click'],
-    input: ['input'],
+    click: [events.click],
+    input: [events.input],
+    scroll: [events.scroll],
   },
   []
 )
@@ -22,6 +30,7 @@ const Event_Handler = new Target_Iterator(
     config: Config_Handler,
     live: Live_Handler,
     field: Field_Handler,
+    field_scroll: Field_Scroll_Handler,
   },
   () => {}
 )
@@ -32,11 +41,9 @@ class Listener_Config {
       .value
 
     // TODO fix error if dont correct handler type
-    const handler = new event_handler().handler
-    const value = new Node_Data(node, 'value').value
-    const events = new Event_Names(type).value
-
-    this.value = { events, handler, value }
+    this.handler = new event_handler().handler
+    this.value = new Node_Data(node, 'value').value
+    this.events = new Event_Names(type).value
   }
 }
 
@@ -55,9 +62,7 @@ export class Handlers {
     return !this.#nodes?.length
   }
 
-  #set_nodes = () => {
-    this.#nodes = new Nodes_By_Attribute(this.#type).value
-  }
+  #set_nodes = () => (this.#nodes = new Nodes_By_Attribute(this.#type).value)
 
   #add_listeners = () => {
     if (this.#not_nodes) return
@@ -67,12 +72,15 @@ export class Handlers {
 
   #add_listener = (node) => {
     const { events, handler, value } = new Listener_Config(node, this.#type)
-      .value
 
     events.forEach((event) => {
-      node.addEventListener(event, (e) => {
-        handler(value, e)
-      })
+      node.addEventListener(event, (e) => handler(value, e), { passive: true })
     })
+  }
+}
+
+export class Events {
+  constructor(types) {
+    Object.keys(types).forEach((event_key) => new Handlers(types[event_key]))
   }
 }

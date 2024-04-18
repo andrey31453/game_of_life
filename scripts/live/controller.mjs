@@ -14,8 +14,11 @@ export const Live_Controller = new Singleton(
     constructor() {
       this.#model = new Live_Model(() => new State().config)
       this.#view = new Live_View(
-        new Node_By_Attribute('game-field').value,
-        new Node_By_Attribute('game-info').value,
+        {
+          field_node: new Node_By_Attribute('game-field').value,
+          field_cont_node: new Node_By_Attribute('game-field-cont').value,
+          info_node: new Node_By_Attribute('game-info').value,
+        },
         this.#update,
         () => ({
           ...new State().vars,
@@ -49,8 +52,8 @@ export const Live_Controller = new Singleton(
     }
 
     update = () => {
-      this.#model.update_config()
-      this.#view.update_config()
+      this.#model.hard_update()
+      this.#view.hard_update()
     }
 
     random = () => {
@@ -58,7 +61,19 @@ export const Live_Controller = new Singleton(
       this.#view.update()
     }
 
+    scroll = (v) => {
+      console.log('v: ', v)
+    }
+
     not_valid_key = (key) =>
-      !['start', 'pause', 'clear', 'click', 'update', 'random'].includes(key)
+      ![
+        'start',
+        'pause',
+        'clear',
+        'click',
+        'update',
+        'random',
+        'scroll',
+      ].includes(key)
   }
 )
