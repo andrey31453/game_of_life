@@ -27,7 +27,7 @@ export const Live_Controller = new Singleton(
       )
     }
 
-    #update = () => this.#model.state
+    #update = (params) => this.#model.state(params)
 
     // public
 
@@ -61,19 +61,7 @@ export const Live_Controller = new Singleton(
       this.#view.update()
     }
 
-    scroll = (v) => {
-      console.log('v: ', v)
-    }
-
     not_valid_key = (key) =>
-      ![
-        'start',
-        'pause',
-        'clear',
-        'click',
-        'update',
-        'random',
-        'scroll',
-      ].includes(key)
+      !['start', 'pause', 'clear', 'click', 'update', 'random'].includes(key)
   }
 )

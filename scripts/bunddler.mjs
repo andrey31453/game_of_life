@@ -29,7 +29,6 @@ export * from './handlers/config.mjs'
 export * from './handlers/live.mjs'
 export * from './handlers/theme.mjs'
 export * from './handlers/field.mjs'
-export * from './handlers/game_scroll.mjs'
 
 export * from './handlers/handlers.mjs'
 
@@ -37,4 +36,6 @@ export * from './handlers/handlers.mjs'
 
 export * from './live/controller.mjs'
 export * from './live/model.mjs'
+export * from './live/info_view.mjs'
+export * from './live/field_view.mjs'
 export * from './live/view.mjs'

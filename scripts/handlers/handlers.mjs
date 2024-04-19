@@ -6,7 +6,6 @@ import {
   Target_Iterator,
   Live_Handler,
   Field_Handler,
-  Field_Scroll_Handler,
 } from '../bunddler.mjs'
 
 export const events = {
@@ -30,7 +29,6 @@ const Event_Handler = new Target_Iterator(
     config: Config_Handler,
     live: Live_Handler,
     field: Field_Handler,
-    field_scroll: Field_Scroll_Handler,
   },
   () => {}
 )

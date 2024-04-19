@@ -1,6 +1,6 @@
-import { Canvas_Elem, vars, decimal, Fields } from '../bunddler.mjs'
+import { Canvas_Elem, vars, decimal, Fields, round } from '../bunddler.mjs'
 
-const live_canvas_elem = ([x, y], size, config) =>
+const live_canvas_elem = ([x, y], config) =>
   new Canvas_Elem('circle', {
     style: {
       radius:
@@ -9,10 +9,10 @@ const live_canvas_elem = ([x, y], size, config) =>
         decimal(config[vars.icon.live.size]),
       color: config[vars.color.primary],
     },
-    position: [(+x + 0.5) / size.x, (+y + 0.5) / size.y],
+    position: [(+x + 0.5) / config.x, (+y + 0.5) / config.y],
   }).value
 
-const empty_canvas_elem = ([x, y], size, config) =>
+const empty_canvas_elem = ([x, y], config) =>
   new Canvas_Elem(config[vars.icon.live.empty_type], {
     style: {
       radius:
@@ -22,25 +22,27 @@ const empty_canvas_elem = ([x, y], size, config) =>
       color: config[vars.color.secondary],
       width: decimal(config[vars.icon.live.wrapper_width]),
     },
-    position: [(+x + 0.5) / size.x, (+y + 0.5) / size.y],
+    position: [(+x + 0.5) / config.x, (+y + 0.5) / config.y],
   }).value
 
 export class Fields_Canvas_Data {
-  constructor(lives, size, config) {
+  constructor(lives, visible_size, config) {
     this.value = [
-      ...this.#emptyes(size, config),
-      ...this.#lives(lives, size, config),
+      ...this.#emptyes(visible_size, config),
+      ...this.#lives(lives, visible_size, config),
     ]
   }
 
-  #emptyes = (size, config) =>
-    new Fields(size, (x, y) => empty_canvas_elem([x, y], size, config)).value
+  #emptyes = (visible_size, config) =>
+    new Fields(visible_size, (x, y) => {
+      return empty_canvas_elem([x, y], config)
+    }).value
 
-  #lives = (lives, size, config) =>
-    new Fields(size, (x, y) => {
+  #lives = (lives, visible_size, config) =>
+    new Fields(visible_size, (x, y) => {
       if (this.#is_not_live(lives, [x, y])) return
 
-      return live_canvas_elem([x, y], size, config)
+      return live_canvas_elem([x, y], config)
     }).value
 
   // TODO remove magic ${x}:${y}
@@ -103,5 +105,28 @@ export class Update_Lives_Canvas_Data {
       empty_canvas_elem([x, y], this.#state.size, this.#state.config)
     )
     return emptyes
+  }
+}
+
+export class Visible_Size {
+  #offset = 5
+
+  constructor([x1, y1, x2, y2], size) {
+    this.value = [
+      Math.max(round(x1 * size.x - this.#offset), 0),
+      Math.max(round(y1 * size.y - this.#offset), 0),
+      Math.min(round(x2 * size.x + this.#offset), size.x),
+      Math.min(round(y2 * size.y + this.#offset), size.y),
+    ]
+  }
+}
+
+export class Visible_Lives {
+  constructor(lives, [x1, y1, x2, y2]) {
+    this.value = lives.filter((live) => {
+      const [x, y] = live.split(':')
+
+      return +x >= x1 && +x <= x2 && +y >= y1 && +y <= y2
+    })
   }
 }

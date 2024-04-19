@@ -18,6 +18,8 @@ export const decimal = (v) => `${v}`.replace(/\D/gi, '')
 
 export const iterate = (num, cb) => [...Array(num).keys()].map((i) => cb(i))
 
+export const round = (num, type = 'round') => Math[type](num)
+
 // TODO rewrite to any quantity arrays
 export const uniques = (array_1, array_2) => {
   let unique_items_1 = []

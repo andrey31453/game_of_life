@@ -6,6 +6,8 @@ import {
   Lives,
   Fields,
   Deads_And_Borns,
+  Visible_Lives,
+  Visible_Size,
 } from '../bunddler.mjs'
 
 export class Live_Model {
@@ -23,10 +25,13 @@ export class Live_Model {
 
   // public
 
-  get state() {
+  state = (visible_proportions) => {
+    this.#set_visible_lives(visible_proportions)
+    this.#update_hash()
+
     return {
       ...this.#state,
-      duration: this.#duration,
+      lives: this.#state.visible_lives,
     }
   }
 
@@ -61,10 +66,6 @@ export class Live_Model {
 
   // public utils
 
-  get #duration() {
-    return (this.#state.history.length - 1) * this.#state.time
-  }
-
   #update_config = () => {
     const { x, y, time, live_chance } = this.#get_config()
 
@@ -85,7 +86,6 @@ export class Live_Model {
 
   #next_generate = (new_lives) => {
     this.#update_lives(new_lives)
-    this.#update_hash()
     this.#update_history()
   }
 
@@ -121,7 +121,7 @@ export class Live_Model {
 
   #random_lives = () =>
     new Lives(
-      new Fields(this.#state.size, (x, y) =>
+      new Fields([0, 0, this.#state.size.x, this.#state.size.y], (x, y) =>
         Math.random() < 0.01 * this.#state.live_chance ? `${x}:${y}` : false
       ).value
     ).value
@@ -139,11 +139,21 @@ export class Live_Model {
 
   #update_history = () => {
     this.#state.history.push(new Hash(this.#state.lives).value)
+    this.#state.duration = (this.#state.history.length - 1) * this.#state.time
   }
 
-  // hash
+  // visible_lives
 
-  #update_hash = () => {}
+  #set_visible_lives = (visible_proportions) => {
+    this.#state.visible_lives = new Visible_Lives(
+      this.#state.lives,
+      new Visible_Size(visible_proportions, this.#state.size).value
+    ).value
+  }
+
+  #update_hash = () => {
+    this.#state.hash = new Hash(this.#state.visible_lives).value
+  }
 
   // end game
 
