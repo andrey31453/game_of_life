@@ -49,6 +49,7 @@ export class Fields_Canvas_Data {
   #is_not_live = (lives, [x, y]) => !lives.includes(`${x}:${y}`)
 }
 
+// TODO rewrite for visible_size
 export class Update_Lives_Canvas_Data {
   #state
 

@@ -68,8 +68,6 @@ export class Live_Field_View {
         this.#config
       ).value
     )
-
-    // this.#model.hard = false
   }
 
   #soft_update_fields = () => {
