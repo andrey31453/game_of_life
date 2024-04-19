@@ -1,4 +1,4 @@
-import { Init_lives, iterate } from '../bunddler.mjs'
+import { Init_lives, iterate, round } from '../bunddler.mjs'
 
 export const live_delimiter = ':'
 
@@ -33,8 +33,10 @@ export class Lives {
 }
 
 export class Fields {
-  constructor(size, cb) {
-    this.value = iterate(size.x, (x) => iterate(size.y, (y) => cb(x, y)))
+  constructor([x1, y1, x2, y2], cb) {
+    this.value = iterate(round(x2 - x1), (x) =>
+      iterate(round(y2 - y1), (y) => cb(x + x1, y + y1))
+    )
       .flat()
       .filter(Boolean)
   }
