@@ -25,10 +25,12 @@ export class Live_Info_View {
     this.#canvas.update(this.#canvas_data())
   }
 
-  hard_update = () => {
+  hard_update = (model) => {
+    this.#update_state(model)
     this.#update_config()
     // TODO add update sizes method from canvas
     this.#set_canvas()
+    this.#canvas.update(this.#canvas_data())
   }
 
   //

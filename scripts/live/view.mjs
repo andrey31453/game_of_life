@@ -26,7 +26,7 @@ export class Live_View {
 
   hard_update = () => {
     const model = this.#get_model(this.#field_view.visible_proportions)
-    this.#info_view.hard_update()
+    this.#info_view.hard_update(model)
     this.#field_view.hard_update(model)
   }
 
